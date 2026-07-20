@@ -1,0 +1,26 @@
+# Archives et sauvegardes
+*.zip
+*.rar
+
+# Dossiers dupliqués (copies de travail)
+*Copie*/
+*Copie (2)/
+*Copie (3)/
+*Copie (4)/
+*Copie (5)/
+
+# Anciens fichiers WordPress
+fichier ozep site en statique/
+fichier ozep site en statique recupere depuis wordpress/
+
+# Vidéos non compressées
+videopourHeroPageAcceuilSansCompression/
+
+# Anciens dossiers de versions
+ozep-accueil 1.zip
+ozep-accueil 2/
+ozep-accueil 2.zip
+ozepSite-Acceuil+SERVICE-FAIT-ET-ANNIME/
+site-Ozep-Avec-toutes-les-pages-et-page-acceiul-bien-anime-et-fini/
+lumen-gallery-clean/
+lumen-gallery-clean.zip

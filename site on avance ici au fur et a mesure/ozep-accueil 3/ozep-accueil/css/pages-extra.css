@@ -1,0 +1,749 @@
+/* ============================================================
+   OZEP — Styles additionnels pour les pages intérieures
+   (À propos, Services, Réalisations, Contact)
+   À charger APRÈS css/style.css
+   ============================================================ */
+
+/* Lien de nav actif */
+.nav-links a.active {
+  color: var(--orange);
+}
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* ------------------------------------------------------------
+   BANNIÈRE DE PAGE (remplace le hero plein écran sur les pages
+   intérieures — pas de position fixed, juste un bandeau)
+   ------------------------------------------------------------ */
+.page-banner {
+  background: var(--black);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  color: var(--white);
+  padding: 190px 0 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 20%, rgba(248, 125, 2, 0.22), transparent 55%);
+  pointer-events: none;
+}
+
+.page-banner .wrap {
+  position: relative;
+  z-index: 2;
+}
+
+.page-banner .eyebrow-label {
+  color: var(--orange);
+}
+
+.page-banner h1 {
+  font-family: var(--font-display);
+  font-size: 48px;
+  max-width: 760px;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.page-banner p {
+  font-family: var(--font-cond);
+  font-size: 19px;
+  font-weight: 500;
+  max-width: 600px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+@media (max-width: 900px) {
+  .page-banner {
+    padding: 150px 0 60px;
+  }
+  .page-banner h1 {
+    font-size: 32px;
+  }
+  .page-banner p {
+    font-size: 17px;
+  }
+}
+
+/* ------------------------------------------------------------
+   CARTES "OBJECTIFS" / "VISION" — variante sans image, sur fond clair
+   ------------------------------------------------------------ */
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  max-width: 900px;
+  margin: 40px auto 0;
+}
+
+.goal-card {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 30px 26px;
+  box-shadow: 0 14px 30px rgba(20, 20, 20, 0.08);
+  border-top: 3px solid var(--orange);
+}
+
+.goal-card .goal-icon {
+  font-size: 28px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.goal-card p {
+  font-family: var(--font-cond);
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--black);
+  line-height: 1.4;
+}
+
+/* Version mobile : 1 seule colonne */
+@media (max-width: 768px) {
+  .goals-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 100%;
+  }
+}
+
+/* ------------------------------------------------------------
+   BLOCS "EXPERTISE DÉTAILLÉE" (services.html) — texte + image
+   alternés, réutilisent l'esprit de .why-grid mais sur fond clair
+   ------------------------------------------------------------ */
+.expertise-block {
+  padding: 70px 0;
+}
+
+.expertise-block:nth-child(even) {
+  background: var(--grey-light);
+}
+
+.expertise-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.expertise-grid.reverse .expertise-image {
+  order: 2;
+}
+
+.expertise-image img {
+  height: 380px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.expertise-text .service-num {
+  font-family: var(--font-cond);
+  color: var(--orange);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.expertise-text h3 {
+  font-family: var(--font-display);
+  font-size: 30px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.expertise-text p {
+  color: #4a4a4a;
+  font-size: 16.5px;
+  max-width: 480px;
+}
+
+@media (max-width: 900px) {
+  .expertise-grid,
+  .expertise-grid.reverse {
+    grid-template-columns: 1fr;
+  }
+  .expertise-grid.reverse .expertise-image {
+    order: 0;
+  }
+  .expertise-image img {
+    height: 260px;
+  }
+}
+
+/* ------------------------------------------------------------
+   PROJETS EN AVANT (realisations.html) — 3 cartes "fiches projet"
+   ------------------------------------------------------------ */
+.featured-projects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.project-card {
+  background: var(--black);
+  color: var(--white);
+  border-radius: 14px;
+  padding: 32px 28px;
+  flex: 1 1 300px;
+  max-width: 360px;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--orange);
+}
+
+.project-card .project-date {
+  font-family: var(--font-cond);
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.project-card h4 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.project-card p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 15px;
+}
+
+/* ------------------------------------------------------------
+   GALERIE COMPLÈTE (realisations.html) — grille statique
+   ------------------------------------------------------------ */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  height: 260px;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
+  filter: brightness(0.95);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.05);
+}
+
+@media (max-width: 900px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .gallery-item {
+    height: 200px;
+  }
+}
+
+@media (max-width: 560px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------------
+   PAGE CONTACT
+   ------------------------------------------------------------ */
+.contact-section {
+  background: var(--white);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.contact-info-card {
+  background: var(--black);
+  color: var(--white);
+  border-radius: 14px;
+  padding: 40px 34px;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.contact-info-card h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.contact-info-card > p {
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-cond);
+  font-size: 16.5px;
+  margin-bottom: 30px;
+}
+
+.contact-info-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.contact-info-item .icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
+  border: 2px solid var(--orange);
+  color: var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.contact-info-item h5 {
+  font-family: var(--font-cond);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 13px;
+  color: var(--orange);
+  margin-bottom: 4px;
+}
+
+.contact-info-item p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+.contact-form {
+  background: var(--grey-light);
+  border-radius: 14px;
+  padding: 42px 38px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 13px;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  border: 2px solid transparent;
+  background: var(--white);
+  border-radius: 6px;
+  padding: 13px 16px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--black);
+  transition: border-color 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.contact-form .btn-primary {
+  width: 100%;
+  border: none;
+  font-size: 16px;
+}
+
+.contact-feedback {
+  margin-top: 16px;
+  font-family: var(--font-cond);
+  font-weight: 600;
+  color: var(--orange-dark);
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+}
+
+.contact-feedback.is-visible {
+  opacity: 1;
+  height: auto;
+}
+
+.contact-map {
+  margin-top: 60px;
+  border-radius: 14px;
+  overflow: hidden;
+  height: 380px;
+}
+
+.contact-map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ============================================================
+   RÉALISATIONS — image à gauche, texte à droite
+   ============================================================ */
+.realisations-presentation {
+  background: var(--white);
+  padding: 80px 0;
+}
+
+.realisations-row {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.realisations-image {
+  flex: 0 0 48%;
+  max-width: 48%;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.12);
+}
+
+.realisations-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.realisations-row:hover .realisations-image img {
+  transform: scale(1.04);
+}
+
+.realisations-text {
+  flex: 1;
+}
+
+.realisations-text .section-title {
+  font-size: 34px;
+  margin-bottom: 20px;
+  max-width: 100%;
+}
+
+.realisations-text p {
+  font-size: 17px;
+  color: #3d3d3d;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.realisations-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive pour mobile */
+@media(max-width: 900px) {
+  .realisations-row {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .realisations-image {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+  }
+  .realisations-image img {
+    height: 280px;
+  }
+  .realisations-text .section-title {
+    font-size: 28px;
+  }
+}
+
+/* ============================================================
+   RÉALISATIONS — image à gauche, texte à droite (animations vivantes)
+   ============================================================ */
+
+/* Délai pour le texte (apparition en cascade) */
+.realisations-text.reveal-right {
+  transition-delay: 0.2s;
+}
+
+/* Animation de flottement pour l'image (effet de vie) */
+.realisations-image img {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: floatImage 6s ease-in-out infinite;
+}
+
+@keyframes floatImage {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-12px) scale(1.02); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+/* Mettre en pause le flottement au survol (pour le zoom) */
+.realisations-row:hover .realisations-image img {
+  animation-play-state: paused;
+  transform: scale(1.04);
+}
+
+/* Animation du titre (barre orange qui se déploie) */
+.realisations-text .section-title {
+  position: relative;
+  display: inline-block;
+}
+
+.realisations-text .section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: var(--orange);
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.realisations-text.is-visible .section-title::after {
+  width: 80px;
+}
+
+/* Apparition en cascade des paragraphes avec décalage */
+.realisations-text p {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.realisations-text.is-visible p {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.realisations-text.is-visible p:nth-child(1) {
+  transition-delay: 0.3s;
+}
+
+.realisations-text.is-visible p:nth-child(2) {
+  transition-delay: 0.5s;
+}
+
+/* CORRECTION : pour que le texte ne reste pas en opacity 0 si la classe n'est pas encore ajoutée, 
+   on initialise à 1 par défaut et on override quand is-visible est présent */
+.realisations-text p {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.realisations-text:not(.is-visible) p {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+/* ============================================================
+   CORRIDOR 3D — mode plein écran
+   ============================================================ */
+.corridor-controls {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-corridor {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 24px;
+  border-radius: 4px;
+  border: 2px solid var(--orange);
+  background: transparent;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 14px;
+}
+
+.btn-corridor:hover {
+  background: var(--orange);
+  color: var(--black);
+}
+
+.btn-corridor-return {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+.btn-corridor-return:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.corridor-section.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background: var(--black);
+  padding: 20px 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.corridor-section.fullscreen .wrap {
+  padding: 0 28px;
+  flex-shrink: 0;
+}
+
+.corridor-section.fullscreen .corridor-stage-wrap {
+  flex: 1;
+  min-height: 0;
+}
+
+.corridor-section.fullscreen .corridor-stage-wrap #corridor-3d-stage {
+  height: 100%;
+  min-height: 400px;
+}
+
+.corridor-section.fullscreen .corridor-scroll-hint {
+  display: none;
+}
+
+.corridor-section.fullscreen .corridor-caption {
+  bottom: 30px;
+}
+
+/* ============================================================
+   CORRIDOR 3D — mode plein écran
+   ============================================================ */
+
+/* Cache tout le contenu du .wrap en mode plein écran */
+.corridor-section.fullscreen .wrap {
+  display: none;
+}
+
+/* Bouton Retour flottant (visible uniquement en plein écran) */
+.btn-corridor-return-fullscreen {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 28px;
+  border-radius: 4px;
+  border: 2px solid var(--white);
+  background: rgba(0,0,0,0.6);
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 15px;
+  backdrop-filter: blur(4px);
+}
+
+.btn-corridor-return-fullscreen:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.corridor-section.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background: var(--black);
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.corridor-section.fullscreen .corridor-stage-wrap {
+  flex: 1;
+  min-height: 0;
+}
+
+.corridor-section.fullscreen .corridor-stage-wrap #corridor-3d-stage {
+  height: 100%;
+  min-height: 400px;
+}
+
+.corridor-section.fullscreen .corridor-scroll-hint {
+  display: none;
+}
+
+.corridor-section.fullscreen .corridor-caption {
+  bottom: 30px;
+}

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réalisations — OZEP Group | Nos chantiers et projets</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages-extra.css">
+  <link rel="stylesheet" href="css/corridor-ozep.css">
+
+  <style>
+    /* Désactiver le carrousel sur cette page (un seul slide) */
+    .hero .hero-nav {
+      display: none !important;
+    }
+    .hero .slide {
+      transition: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER (modifié : "Projets" → "Réalisations") ===== -->
+<header>
+  <nav class="nav">
+    <a href="index.html" class="logo"><img src="assets/LOGO-ozep.jpg" alt="Logo OZEP" class="logo-img"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="realisations.html" class="active">Réalisations</a></li>  <!-- Changé "Projets" → "Réalisations" -->
+      <li><a href="apropos.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-primary devis-btn">Demander un devis</a>
+    <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<!-- ===== HERO — IMAGE UNIQUE AVEC ANIMATION ORBITALE ===== -->
+<section class="hero is-expanded" id="realisations-hero">
+  <div class="hero-scene">
+    <div class="hero-track">
+      <div class="slide active">
+        <div class="slide-bg">
+          <img src="assets/Gemini_Generated_Image_e116zee116zee116.png" alt="Chantier OZEP" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="slide-content">
+          <div class="eyebrow">Nos réalisations</div>
+          <h1>Des projets qui parlent pour nous.</h1>
+          <p>Mines, BTP, hydraulique, géotechnique – chaque chantier est une preuve de notre engagement.</p>
+          <div class="hero-actions">
+            <a href="#projets" class="btn btn-primary">Découvrir nos projets</a>
+            <a href="contact.html" class="btn btn-outline">Nous contacter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTENU DÉFILANT ===== -->
+<div class="page-content">
+
+  <!-- === BANDE RAYÉE === -->
+  <div class="stripe"></div>
+
+  <!-- ===== SECTION RÉALISATIONS — image à gauche / texte à droite ===== -->
+  <section class="realisations-presentation" id="projets">
+    <div class="wrap">
+      <div class="realisations-row">
+        <div class="realisations-image reveal-left">
+          <img src="assets/ozep-photo.jpg" alt="Chantier OZEP">
+        </div>
+        <div class="realisations-text reveal-right">
+          <div class="eyebrow-label">Nos réalisations</div>
+          <h2 class="section-title">Chaque projet, une promesse tenue.</h2>
+          <p>
+            Chaque réalisation est le reflet de notre engagement à transformer les idées en solutions concrètes et durables. Qu'il s'agisse d'ingénierie, de construction ou de projets liés aux mines et au forage, nous mettons en avant la rigueur technique et l'innovation qui nous caractérisent.
+          </p>
+          <p>
+            Nous croyons que chaque projet est une opportunité de bâtir la confiance, de renforcer les compétences locales et de contribuer au développement durable. Les réalisations présentées ici illustrent notre savoir-faire et notre volonté d'aller toujours plus loin, en plaçant la qualité et la satisfaction de nos partenaires au cœur de notre démarche.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COULOIR 3D AVEC BOUTONS PLEIN ÉCRAN ===== -->
+  <section class="corridor-section" id="corridorSection">
+    <div class="wrap" style="padding-top:60px; padding-bottom:8px;">
+      <div class="eyebrow-label">Galerie</div>
+      <h2 class="section-title" style="color:var(--white);">Avancez dans le chantier</h2>
+      <p style="font-family:var(--font-cond); color:rgba(255,255,255,0.7); font-size:17px; max-width:560px; margin-top:10px;">
+        Faites défiler pour traverser nos chantiers — mines, BTP et hydraulique — comme si vous y étiez.
+      </p>
+      <div class="corridor-controls">
+        <button class="btn-corridor" id="corridorFullscreenBtn">Plein écran</button>
+        <button class="btn-corridor btn-corridor-return" id="corridorReturnBtn" style="display:none;">Retour</button>
+      </div>
+    </div>
+
+    <div class="corridor-stage-wrap">
+      <div id="corridor-3d-stage"></div>
+      <div class="corridor-scroll-hint" id="corridor-scroll-hint">
+        <span>Faites défiler</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </div>
+      <div class="corridor-caption" id="corridor-caption">
+        <span class="corridor-tag">Mines</span>
+        <span class="corridor-title">Site de Kollo — traitement du minerai</span>
+      </div>
+    </div>
+
+    <!-- BOUTON RETOUR FLOTTANT -->
+    <button class="btn-corridor-return-fullscreen" id="corridorReturnFullscreenBtn" style="display:none;">✕ Retour</button>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta">
+    <div class="wrap">
+      <h2>Un projet en tête ? On est déjà prêts.</h2>
+      <p>Simplicité et efficacité : votre projet avance dès le premier contact à OZEP.</p>
+      <div class="hero-actions" style="justify-content:center;">
+        <a href="contact.html" class="btn" style="background:var(--black); color:var(--white);">Demander un devis</a>
+        <a href="contact.html" class="btn btn-outline">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="assets/LOGO-ozep.jpg" alt="OZEP" class="LOGO ozep"></div>
+          <p style="max-width:280px; font-size:14.5px; color:rgb(249, 249, 250);">OZEP Group — Bâtir sur nos valeurs africaines. Choisir OZEP, c'est opter pour un partenaire engagé, réactif et à l'écoute.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Navigation</h5>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="realisations.html">Réalisations</a></li>  <!-- Changé -->
+            <li><a href="apropos.html">À propos</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Domaines</h5>
+          <ul>
+            <li><a href="services.html">BTP</a></li>
+            <li><a href="services.html">Mines</a></li>
+            <li><a href="services.html">Hydraulique</a></li>
+            <li><a href="services.html">Géotechniques</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="mailto:ouezan52@gmail.com">ouezan52@gmail.com</a></li>
+            <li><a href="tel:+22656588397">+226 56 58 83 97</a></li>
+            <li><a href="tel:+22662038404">+226 62 03 84 04</a></li>
+            <li>Ouagadougou, Burkina Faso</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 OZEP. Tous droits réservés.</span>
+        <span>Mentions légales</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<!-- fin .page-content -->
+
+<!-- ===== SCRIPTS ===== -->
+<script src="js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script src="js/corridor-ozep.js"></script>
+
+<script>
+  (function() {
+    // Masquer l'indicateur de scroll
+    var stage = document.getElementById('corridor-3d-stage');
+    var hint = document.getElementById('corridor-scroll-hint');
+    if (stage && hint) {
+      function hideHint() { hint.classList.add('is-hidden'); }
+      stage.addEventListener('wheel', hideHint, { once: true, passive: true });
+      stage.addEventListener('touchstart', hideHint, { once: true, passive: true });
+    }
+
+    // Gestion du plein écran
+    var section = document.getElementById('corridorSection');
+    var fsBtn = document.getElementById('corridorFullscreenBtn');
+    var returnBtn = document.getElementById('corridorReturnBtn');
+    var returnFullscreenBtn = document.getElementById('corridorReturnFullscreenBtn');
+
+    if (section && fsBtn && returnBtn && returnFullscreenBtn) {
+      function enterFullscreen() {
+        section.classList.add('fullscreen');
+        document.body.classList.add('fullscreen-active');
+        fsBtn.style.display = 'none';
+        returnBtn.style.display = 'none';
+        returnFullscreenBtn.style.display = 'block';
+        window.dispatchEvent(new Event('resize'));
+        setTimeout(function() { window.dispatchEvent(new Event('resize')); }, 100);
+      }
+
+      function exitFullscreen() {
+        section.classList.remove('fullscreen');
+        document.body.classList.remove('fullscreen-active');
+        fsBtn.style.display = 'inline-block';
+        returnBtn.style.display = 'none';
+        returnFullscreenBtn.style.display = 'none';
+        window.dispatchEvent(new Event('resize'));
+        setTimeout(function() { window.dispatchEvent(new Event('resize')); }, 100);
+      }
+
+      fsBtn.addEventListener('click', enterFullscreen);
+      returnFullscreenBtn.addEventListener('click', exitFullscreen);
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && section.classList.contains('fullscreen')) {
+          exitFullscreen();
+        }
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

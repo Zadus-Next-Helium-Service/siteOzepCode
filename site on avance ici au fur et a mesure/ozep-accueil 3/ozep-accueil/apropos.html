@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos — OZEP Group | Ouagadougou, Burkina Faso</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages-extra.css">
+  <link rel="stylesheet" href="css/apropos-extra.css">
+
+  <style>
+    /* Désactiver le carrousel sur cette page (un seul slide) */
+    .hero .hero-nav {
+      display: none !important;
+    }
+    .hero .slide {
+      transition: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <nav class="nav">
+    <a href="index.html" class="logo"><img src="assets/LOGO-ozep.jpg" alt="Logo OZEP" class="logo-img"></a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="realisations.html">Réalisations</a></li>
+      <li><a href="apropos.html" class="active">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-primary devis-btn">Demander un devis</a>
+    <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<!-- ===== HERO — IMAGE FIXE EN ARRIÈRE-PLAN ===== -->
+<section class="hero is-expanded" id="apropos-hero">
+  <div class="hero-scene">
+    <div class="hero-track">
+      <div class="slide active">
+        <div class="slide-bg">
+          <!-- Remplace par une photo dédiée (siège, équipe, chantier) si tu en as une -->
+          <img src="assets/aproposozep.png" alt="OZEP Group" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="slide-content">
+          <div class="eyebrow">À propos de nous</div>
+          <h1>Une entreprise burkinabè, bâtie sur l'exigence et la confiance.</h1>
+          <p>Depuis nos débuts, nous accompagnons des projets de BTP, mines, hydraulique et géotechnique avec une même exigence : livrer un travail solide, à temps, et dans le respect de nos engagements.</p>
+          <div class="hero-actions">
+            <a href="#notre-histoire" class="btn btn-primary">Découvrir notre histoire</a>
+            <a href="contact.html" class="btn btn-outline">Nous contacter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTENU DÉFILANT ===== -->
+<div class="page-content">
+
+  <div class="stripe"></div>
+
+  <!-- ===== NOTRE HISTOIRE ===== -->
+  <section class="intro" id="notre-histoire">
+    <div class="wrap intro-grid">
+
+      <div class="intro-image">
+        <!-- Remplace par une photo de bureau / équipe si disponible -->
+        <div class="img-reveal reveal-left">
+          <img src="assets/ozepimage.webp" alt="Équipe OZEP sur le terrain">
+        </div>
+        <div class="badge">
+          <b>8+ ans</b>
+          d'expertise au service du BTP, des mines et de l'hydraulique
+        </div>
+      </div>
+
+      <div class="intro-text stagger-reveal">
+        <div class="eyebrow-label">Notre histoire</div>
+        <h2 class="section-title">Née d'une conviction : le Burkina Faso mérite des infrastructures à la hauteur de ses ambitions.</h2>
+        <p>OZEP Group est né de la volonté de proposer, sur le terrain, une alternative locale fiable aux grands groupes internationaux : la même rigueur technique, mais une meilleure connaissance du terrain, des délais tenus, et une vraie proximité avec nos clients.</p>
+        <p>Au fil des chantiers, notre équipe a élargi son savoir-faire du BTP classique vers les mines, l'hydraulique et les études géotechniques — toujours avec la même exigence de qualité et de sécurité.</p>
+
+        <div class="intro-stats">
+          <div class="stat">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
+            </div>
+            <b class="count" data-target="8" data-suffix="+">0</b>
+            <span>Années d'expérience</span>
+          </div>
+          <div class="stat">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            </div>
+            <b class="count" data-target="120" data-suffix="+">0</b>
+            <span>Projets réalisés</span>
+          </div>
+          <div class="stat">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <b class="count" data-target="50" data-suffix="+">0</b>
+            <span>Clients accompagnés</span>
+          </div>
+          <div class="stat">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <b class="count" data-target="4" data-suffix="">0</b>
+            <span>Domaines d'expertise</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== NOS VALEURS ===== -->
+  <section class="services">
+    <div class="wrap">
+      <div class="services-head section-head-anim reveal-up">
+        <div>
+          <div class="eyebrow-label">Ce qui nous guide</div>
+          <h2 class="section-title">Nos valeurs</h2>
+        </div>
+        <p style="max-width:420px; font-family:var(--font-cond); font-size:17px; color:var(--grey-mid);">Quatre principes simples, appliqués sur chaque chantier, sans exception.</p>
+      </div>
+
+      <div class="goals-grid">
+        <div class="goal-card reveal-up">
+          <span class="goal-icon">🤝</span>
+          <p>Fiabilité — nous tenons nos délais et nos engagements, même sur les chantiers les plus exigeants.</p>
+        </div>
+        <div class="goal-card reveal-up">
+          <span class="goal-icon">🎯</span>
+          <p>Excellence technique — des méthodes rigoureuses et un contrôle qualité à chaque étape du projet.</p>
+        </div>
+        <div class="goal-card reveal-up">
+          <span class="goal-icon">🌍</span>
+          <p>Engagement local — une équipe burkinabè qui connaît le terrain, les réalités et les besoins du pays.</p>
+        </div>
+        <div class="goal-card reveal-up">
+          <span class="goal-icon">🛡️</span>
+          <p>Sécurité — la protection de nos équipes et de nos partenaires n'est jamais négociable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NOS DOMAINES D'INTERVENTION ===== -->
+  <section class="services" style="background:var(--white); padding-top:20px;">
+    <div class="wrap">
+      <div class="services-head section-head-anim reveal-up">
+        <div>
+          <div class="eyebrow-label">Notre expertise</div>
+          <h2 class="section-title">Nos domaines d'intervention</h2>
+        </div>
+      </div>
+
+      <div class="goals-grid">
+        <div class="goal-card domain-card reveal-up">
+          <span class="goal-icon">🏗️</span>
+          <p>BTP — construction, réhabilitation et suivi de chantiers pour le public et le privé.</p>
+          <a href="services.html" class="domain-link">Voir le détail</a>
+        </div>
+        <div class="goal-card domain-card reveal-up">
+          <span class="goal-icon">⛏️</span>
+          <p>Mines — appui technique et travaux liés à l'exploitation minière.</p>
+          <a href="services.html" class="domain-link">Voir le détail</a>
+        </div>
+        <div class="goal-card domain-card reveal-up">
+          <span class="goal-icon">💧</span>
+          <p>Hydraulique — forages, réseaux d'eau et infrastructures hydrauliques.</p>
+          <a href="services.html" class="domain-link">Voir le détail</a>
+        </div>
+        <div class="goal-card domain-card reveal-up">
+          <span class="goal-icon">🪨</span>
+          <p>Géotechnique — études de sol et diagnostics avant construction.</p>
+          <a href="services.html" class="domain-link">Voir le détail</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MESSAGE DU DIRIGEANT ===== -->
+  <section class="founder-quote">
+    <div class="wrap">
+      <blockquote class="reveal-up">
+        <span class="quote-mark">"</span>
+        <p>Chaque chantier porte notre nom. C'est pour ça qu'on ne transige ni sur la qualité, ni sur les délais, ni sur la sécurité de nos équipes. Notre ambition, c'est que chaque client sache qu'il peut compter sur nous.</p>
+        <cite>Le Fondateur<span>Direction générale, OZEP Group</span></cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ===== POURQUOI NOUS CHOISIR ===== -->
+  <section class="why">
+    <div class="wrap why-grid">
+      <div class="why-image reveal-left">
+        <img src="assets/pageappropo.jpg" alt="Chantier OZEP">
+      </div>
+      <div>
+        <div class="eyebrow-label">Pourquoi nous choisir</div>
+        <h2 class="section-title typewriter-title"></h2>
+        <div class="rotating-text">
+          <span class="rotating-word"></span>
+        </div>
+
+        <div class="why-list">
+          <div class="why-item">
+            <div class="icon">01</div>
+            <div>
+              <h4>Une équipe expérimentée</h4>
+              <p>Des techniciens et ingénieurs formés aux réalités du terrain burkinabè.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="icon">02</div>
+            <div>
+              <h4>Un interlocuteur unique</h4>
+              <p>Du premier contact à la livraison, un seul point de contact pour tout votre projet.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="icon">03</div>
+            <div>
+              <h4>Une transparence totale</h4>
+              <p>Des devis clairs, un suivi régulier, aucune mauvaise surprise en cours de chantier.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="contact.html" class="btn btn-primary" style="margin-top:30px;">Discuter de votre projet</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA FINAL ===== -->
+  <section class="cta">
+    <div class="wrap">
+      <h2>Envie de construire avec nous ?</h2>
+      <p>Parlons de votre projet, quelle que soit son ampleur.</p>
+      <div class="hero-actions" style="justify-content:center;">
+        <a href="contact.html" class="btn" style="background:var(--black); color:var(--white);">Nous contacter</a>
+        <a href="realisations.html" class="btn btn-outline">Voir nos réalisations</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="assets/LOGO-ozep.jpg" alt="OZEP" class="LOGO ozep"></div>
+          <p style="max-width:280px; font-size:14.5px; color:rgb(249, 249, 250);">OZEP Group — Bâtir sur nos valeurs africaines. Choisir OZEP, c'est opter pour un partenaire engagé, réactif et à l'écoute.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Navigation</h5>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="realisations.html">Réalisations</a></li>
+            <li><a href="apropos.html">À propos</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Domaines</h5>
+          <ul>
+            <li><a href="services.html">BTP</a></li>
+            <li><a href="services.html">Mines</a></li>
+            <li><a href="services.html">Hydraulique</a></li>
+            <li><a href="services.html">Géotechniques</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="mailto:ouezan52@gmail.com">ouezan52@gmail.com</a></li>
+            <li><a href="tel:+22656588397">+226 56 58 83 97</a></li>
+            <li><a href="tel:+22662038404">+226 62 03 84 04</a></li>
+            <li>Rue 29.139, Sanyiri, Ouagadougou</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 OZEP. Tous droits réservés.</span>
+        <span>Mentions légales</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<!-- fin .page-content -->
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
