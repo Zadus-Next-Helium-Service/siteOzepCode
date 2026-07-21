@@ -1,0 +1,262 @@
+/* ============================================================
+   services-accordion.css
+   Accordéon interactif pour la présentation des 4 domaines.
+   Desktop : colonnes horizontales, une seule s'étend au clic.
+   Mobile  : bandes verticales, une seule s'étend en hauteur.
+   ============================================================ */
+
+.services-accordion{
+  display:flex;
+  gap:12px;
+  height:540px;
+  width:100%;
+}
+
+.acc-item{
+  position:relative;
+  flex:1 1 0;
+  min-width:64px;
+  border-radius:16px;
+  overflow:hidden;
+  cursor:pointer;
+  background:var(--black,#141414);
+  transition:flex-grow .65s cubic-bezier(.22,1,.36,1);
+  outline:none;
+}
+.acc-item.is-active{
+  flex-grow:7;
+}
+.acc-item:focus-visible{
+  box-shadow:0 0 0 3px var(--orange,#f87d02);
+}
+
+.acc-bg{
+  position:absolute; inset:0;
+  background-size:cover;
+  background-position:center;
+  transform:scale(1.1);
+  filter:grayscale(45%) brightness(.5);
+  transition:transform .9s ease, filter .7s ease;
+}
+.acc-item.is-active .acc-bg{
+  transform:scale(1);
+  filter:grayscale(0%) brightness(.6);
+}
+
+.acc-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(10,10,10,0.05) 0%, rgba(8,8,8,0.35) 45%, rgba(6,6,6,0.92) 100%);
+}
+
+.acc-info{
+  position:absolute;
+  left:0; right:0; bottom:0; top:26px;
+  padding:26px 24px;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-end;
+}
+
+.acc-num{
+  font-family:'Barlow Condensed', sans-serif;
+  font-size:15px;
+  letter-spacing:2px;
+  color:var(--orange,#f87d02);
+  margin-bottom:10px;
+  flex:none;
+}
+
+.acc-label{
+  font-family:'Archivo Black', sans-serif;
+  color:var(--white,#fff);
+  font-size:19px;
+  line-height:1.15;
+  transition:font-size .5s ease, transform .5s ease, margin .5s ease;
+  white-space:nowrap;
+}
+.acc-item.is-active .acc-label{
+  font-size:27px;
+  white-space:normal;
+  margin-bottom:14px;
+}
+
+/* En mode réduit, le libellé passe en écriture verticale pour
+   remplir joliment la colonne étroite. */
+.acc-item:not(.is-active) .acc-info{
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:26px;
+}
+.acc-item:not(.is-active) .acc-label{
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  transform:rotate(180deg);
+  margin-top:16px;
+}
+.acc-item:not(.is-active) .acc-num{
+  margin-bottom:0;
+}
+
+.acc-panel{
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
+  transition:max-height .55s ease, opacity .4s ease .05s;
+}
+.acc-item.is-active .acc-panel{
+  max-height:220px;
+  opacity:1;
+}
+.acc-panel p{
+  font-family:'Inter', sans-serif;
+  color:rgba(255,255,255,0.85);
+  font-size:15px;
+  line-height:1.55;
+  margin:0 0 16px;
+  max-width:460px;
+}
+
+.acc-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:'Barlow Condensed', sans-serif;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+  font-size:14px;
+  font-weight:600;
+  color:var(--orange,#f87d02);
+  text-decoration:none;
+  transition:gap .25s ease;
+}
+.acc-link:hover{ gap:10px; }
+
+/* ============================================================
+   RESPONSIVE — bascule en bandes verticales empilées
+   ============================================================ */
+@media (max-width:900px){
+  .services-accordion{
+    flex-direction:column;
+    height:auto;
+    gap:10px;
+  }
+  .acc-item{
+    flex:none;
+    height:76px;
+    transition:height .55s ease;
+  }
+  .acc-item.is-active{
+    height:320px;
+  }
+  .acc-info{
+    top:0;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+    padding:0 18px;
+  }
+  .acc-item.is-active .acc-info{
+    justify-content:flex-end;
+    padding:20px 18px;
+  }
+  .acc-num{ margin-bottom:4px; }
+  .acc-item:not(.is-active) .acc-info{
+    align-items:flex-start;
+    padding-top:0;
+  }
+  .acc-label,
+  .acc-item:not(.is-active) .acc-label{
+    writing-mode:horizontal-tb;
+    transform:none;
+    margin-top:0;
+    font-size:17px;
+    white-space:nowrap;
+  }
+  .acc-item.is-active .acc-label{
+    font-size:22px;
+    white-space:normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .acc-item, .acc-bg, .acc-label, .acc-panel{ transition:none; }
+}
+
+/* ============================================================
+   BLOCS D'EXPERTISE DÉTAILLÉE (01—BTP, 02—Mines, 03—Géotechnique,
+   04—Hydraulique) : texte centré, fond qui colle au contenu au
+   lieu de laisser un grand espace vide, numéro de service agrandi.
+   ============================================================ */
+.expertise-block[data-zone]{
+  min-height:auto;
+  padding:90px 0;
+}
+
+.expertise-block[data-zone] .expertise-text{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.expertise-block[data-zone] .expertise-text .service-num{
+  font-size:36px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  margin-bottom:16px;
+}
+
+.expertise-block[data-zone] .expertise-text h3{
+  max-width:520px;
+}
+
+.expertise-block[data-zone] .expertise-text p{
+  max-width:480px;
+}
+
+@media (max-width:900px){
+  .expertise-block[data-zone]{
+    padding:56px 0;
+  }
+}
+
+/* ============================================================
+   SECTION "POURQUOI COLLABORER AVEC OZEP" (fond noir) —
+   le texte est un long paragraphe et non un titre court, donc la
+   classe .section-title (pensée pour un titre) le rendait bien
+   trop grand. On réduit la police du texte, le repère (eyebrow-
+   label) et l'espace vertical de toute la section.
+   ============================================================ */
+.why{
+  padding:40px 0;
+}
+.why .wrap{
+  text-align:center;
+}
+.why .eyebrow-label{
+  font-size:13px;
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+.why .section-title{
+  font-size:24px;
+  line-height:1.55;
+  font-weight:500;
+  margin-left:auto;
+  margin-right:auto;
+}
+.why .why-list{
+  margin-left:auto !important;
+  margin-right:auto !important;
+  justify-content:center;
+}
+.why .why-item{
+  text-align:left;
+}
+
+@media (max-width:900px){
+  .why{ padding:48px 0; }
+  .why .section-title{ font-size:19px; }
+}

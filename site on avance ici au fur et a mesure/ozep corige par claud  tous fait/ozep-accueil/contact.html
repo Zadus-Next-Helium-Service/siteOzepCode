@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — OZEP Group | Ouagadougou, Burkina Faso</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pages-extra.css">
+  <link rel="stylesheet" href="css/contact-futuristic.css">
+
+  <style>
+    /* Désactiver le carrousel sur cette page (un seul slide) */
+    .hero .hero-nav {
+      display: none !important;
+    }
+    .hero .slide {
+      transition: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <nav class="nav">
+    <a href="index.html" class="logo"><img src="assets/LOGO-ozep.jpg" alt="Logo OZEP" class="logo-img"></a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="realisations.html">Réalisations</a></li>
+      <li><a href="apropos.html">À propos</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li class="mobile-devis-item"><a href="contact.html" class="btn btn-primary mobile-devis">Demander un devis</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-primary devis-btn">Demander un devis</a>
+    <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<!-- ===== HERO — IMAGE UNIQUE AVEC ANIMATION ORBITALE ===== -->
+<section class="hero is-expanded" id="contact-hero">
+  <div class="hero-scene">
+    <div class="hero-track">
+      <div class="slide active">
+        <div class="slide-bg">
+          <img src="assets/ozep-contact.png" alt="Contact OZEP" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="slide-content">
+          <div class="eyebrow">Contact</div>
+          <h1>Un projet en tête ? On est déjà prêts à en discuter.</h1>
+          <p>Pas besoin d'un rendez-vous compliqué. Une adresse, un appel, un mail — et on avance.</p>
+          <div class="hero-actions">
+            <a href="#contact-form" class="btn btn-primary">Nous écrire</a>
+            <a href="tel:+22656588397" class="btn btn-outline">Nous appeler</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTENU DÉFILANT ===== -->
+<div class="page-content">
+
+  <!-- === BANDE RAYÉE === -->
+  <div class="stripe"></div>
+
+  <!-- ===== COORDONNÉES + FORMULAIRE ===== -->
+  <section class="contact-section" id="contact-form">
+    <div class="wrap contact-grid">
+
+      <div class="contact-info-card hud-panel reveal-left">
+        <span class="hud-corner tl"></span>
+        <span class="hud-corner tr"></span>
+        <span class="hud-corner bl"></span>
+        <span class="hud-corner br"></span>
+
+        <div class="hud-status"><span class="hud-dot"></span> Système en ligne</div>
+
+        <h3>Nos coordonnées</h3>
+        <p>Écrivez-nous, appelez-nous, ou passez nous voir. Votre chantier n'attend pas.</p>
+
+        <div class="contact-info-item">
+          <div class="icon">📍</div>
+          <div>
+            <h5>Adresse</h5>
+            <p>Rue 29.139, Sanyiri<br>Ouagadougou, Burkina Faso</p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="icon">📞</div>
+          <div>
+            <h5>Téléphone</h5>
+            <p><a href="tel:+22656588397" style="color:inherit;">+226 56 58 83 97</a><br><a href="tel:+22662038404" style="color:inherit;">+226 62 03 84 04</a></p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="icon">📧</div>
+          <div>
+            <h5>Email</h5>
+            <p><a href="mailto:ouezan52@gmail.com" style="color:inherit;">ouezan52@gmail.com</a></p>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form hud-panel reveal-right" id="contactForm">
+        <span class="hud-corner tl"></span>
+        <span class="hud-corner tr"></span>
+        <span class="hud-corner bl"></span>
+        <span class="hud-corner br"></span>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fullname">Nom complet</label>
+            <input type="text" id="fullname" name="fullname" placeholder="Votre nom" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Téléphone</label>
+            <input type="tel" id="phone" name="phone" placeholder="+226 ...">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="vous@exemple.com" required>
+        </div>
+        <div class="form-group">
+          <label for="subject">Objet</label>
+          <input type="text" id="subject" name="subject" placeholder="Type de projet, domaine concerné...">
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Parlez-nous de votre projet..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-transmit">
+          <span class="btn-label">Envoyer le message</span>
+        </button>
+
+        <div class="terminal-output" id="terminalOutput">
+          <span class="terminal-line"></span><span class="cursor"></span>
+        </div>
+      </form>
+
+    </div>
+
+    <div class="wrap">
+      <div class="contact-map hud-frame">
+        <iframe src="https://www.google.com/maps?q=12.3512547,-1.4850261(Rue+29.139,+Sanyiri,+Ouagadougou)&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA FINAL ===== -->
+  <section class="cta">
+    <div class="wrap">
+      <h2>Écrivez-nous, appelez-nous, ou passez nous voir.</h2>
+      <p>Votre chantier n'attend pas.</p>
+      <div class="hero-actions" style="justify-content:center;">
+        <a href="mailto:ouezan52@gmail.com" class="btn" style="background:var(--black); color:var(--white);">Envoyer un email</a>
+        <a href="tel:+22656588397" class="btn btn-outline">Appeler OZEP</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="assets/LOGO-ozep.jpg" alt="OZEP" class="LOGO ozep"></div>
+          <p style="max-width:280px; font-size:14.5px; color:rgb(249, 249, 250);">OZEP Group — Bâtir sur nos valeurs africaines. Choisir OZEP, c'est opter pour un partenaire engagé, réactif et à l'écoute.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Navigation</h5>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="realisations.html">Réalisations</a></li>
+            <li><a href="apropos.html">À propos</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Domaines</h5>
+          <ul>
+            <li><a href="services.html">BTP</a></li>
+            <li><a href="services.html">Mines</a></li>
+            <li><a href="services.html">Hydraulique</a></li>
+            <li><a href="services.html">Géotechniques</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="mailto:ouezan52@gmail.com">ouezan52@gmail.com</a></li>
+            <li><a href="tel:+22656588397">+226 56 58 83 97</a></li>
+            <li><a href="tel:+22662038404">+226 62 03 84 04</a></li>
+            <li>Ouagadougou, Burkina Faso</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 OZEP. Tous droits réservés.</span>
+        <span>Mentions légales</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<!-- fin .page-content -->
+
+<script src="js/script.js"></script>
+<script src="js/contact-futuristic.js"></script>
+
+</body>
+</html>

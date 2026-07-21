@@ -1,0 +1,282 @@
+/* ============================================================
+   OZEP — CONTACT : MODE FUTURISTE (HUD / Console)
+   Fichier dédié à contact.html, chargé APRÈS pages-extra.css.
+   N'écrase aucune règle existante : n'ajoute que du nouveau.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. FOND ANIMÉ DE LA SECTION CONTACT
+   Grille en dérive lente + faisceau lumineux qui balaie la zone
+   ------------------------------------------------------------ */
+.contact-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-section::before {
+  content: '';
+  position: absolute;
+  inset: -50% -10%;
+  background-image:
+    linear-gradient(rgba(248, 125, 2, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(248, 125, 2, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  animation: contactGridDrift 34s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contact-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent 0%, rgba(248, 125, 2, 0.06) 45%, transparent 90%);
+  pointer-events: none;
+  z-index: 0;
+  animation: contactBeamSweep 9s ease-in-out infinite;
+}
+
+.contact-section .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes contactGridDrift {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(44px, 44px); }
+}
+
+@keyframes contactBeamSweep {
+  0%, 100% { left: -30%; opacity: 0; }
+  10%      { opacity: 1; }
+  50%      { left: 65%;  opacity: .6; }
+  90%      { opacity: 0; }
+}
+
+/* ------------------------------------------------------------
+   2. PANNEAUX HUD — coins lumineux animés
+   Appliqué à la carte "coordonnées" et au formulaire
+   ------------------------------------------------------------ */
+.hud-panel {
+  position: relative;
+  transition: transform .25s ease;
+  transform-style: preserve-3d;
+}
+
+.hud-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--orange);
+  opacity: .85;
+  transition: width .3s ease, height .3s ease, opacity .3s ease;
+  pointer-events: none;
+}
+
+.hud-corner.tl { top: -1px;    left: -1px;  border-right: none; border-bottom: none; }
+.hud-corner.tr { top: -1px;    right: -1px; border-left: none;  border-bottom: none; }
+.hud-corner.bl { bottom: -1px; left: -1px;  border-right: none; border-top: none; }
+.hud-corner.br { bottom: -1px; right: -1px; border-left: none;  border-top: none; }
+
+.hud-panel:hover .hud-corner {
+  width: 30px;
+  height: 30px;
+  opacity: 1;
+}
+
+/* Scanline verticale sur la carte coordonnées uniquement */
+.contact-info-card.hud-panel {
+  overflow: hidden;
+}
+
+.contact-info-card.hud-panel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  opacity: .7;
+  animation: hudScan 4.5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes hudScan {
+  0%   { top: 0%; }
+  100% { top: 100%; }
+}
+
+/* Statut "système en ligne" */
+.hud-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-cond);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 22px;
+}
+
+.hud-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #35d07f;
+  animation: hudPulse 1.8s ease-out infinite;
+}
+
+@keyframes hudPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(53, 208, 127, .55); }
+  70%  { box-shadow: 0 0 0 8px rgba(53, 208, 127, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(53, 208, 127, 0); }
+}
+
+/* ------------------------------------------------------------
+   3. FORMULAIRE — style "terminal"
+   ------------------------------------------------------------ */
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.form-group label::after {
+  content: '_';
+  color: var(--orange);
+  animation: hudBlink 1s steps(1) infinite;
+}
+
+@keyframes hudBlink {
+  50% { opacity: 0; }
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group::after {
+  content: '';
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 20px;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+  pointer-events: none;
+}
+
+.form-group:focus-within::after {
+  transform: scaleX(1);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  box-shadow: 0 0 0 3px rgba(248, 125, 2, 0.12);
+}
+
+/* ------------------------------------------------------------
+   4. BOUTON "TRANSMISSION"
+   ------------------------------------------------------------ */
+.btn-transmit {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-transmit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .35), transparent);
+  transform: skewX(-20deg);
+  transition: left .6s ease;
+}
+
+.btn-transmit:hover::before {
+  left: 130%;
+}
+
+.btn-transmit.is-sending {
+  pointer-events: none;
+  opacity: .88;
+}
+
+.btn-transmit .btn-label {
+  position: relative;
+  z-index: 1;
+}
+
+/* Sortie terminal après envoi */
+.terminal-output {
+  margin-top: 16px;
+  background: var(--black);
+  border-radius: 8px;
+  padding: 0 18px;
+  font-family: 'Courier New', monospace;
+  font-size: 13.5px;
+  color: #35d07f;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .4s ease, opacity .4s ease, padding .4s ease;
+}
+
+.terminal-output.is-visible {
+  max-height: 120px;
+  opacity: 1;
+  padding: 14px 18px;
+}
+
+.terminal-output.is-error {
+  color: #ff5c5c;
+}
+
+.terminal-output.is-error .cursor {
+  background: #ff5c5c;
+}
+
+.btn-transmit.is-error {
+  background: #b3261e;
+}
+
+.terminal-output .cursor {
+  display: inline-block;
+  width: 7px;
+  height: 13px;
+  background: #35d07f;
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: hudBlink 1s steps(1) infinite;
+}
+
+/* ------------------------------------------------------------
+   5. CADRE HUD SUR LA CARTE
+   ------------------------------------------------------------ */
+.contact-map.hud-frame {
+  position: relative;
+}
+
+.contact-map.hud-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(248, 125, 2, 0.35), inset 0 0 40px rgba(248, 125, 2, 0.08);
+  pointer-events: none;
+  border-radius: 14px;
+}
+
+@media (max-width: 900px) {
+  .hud-corner { display: none; }
+  .contact-section::after { display: none; }
+}

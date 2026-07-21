@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nos Services — OZEP Group | BTP, Mines, Géotechnique, Hydraulique</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages-extra.css">
+<!-- Fichier dédié à cette page : animation 3D OZEP (réduite) + zones -->
+<link rel="stylesheet" href="css/services-animation.css">
+<!-- Accordéon interactif des 4 services -->
+<link rel="stylesheet" href="css/services-accordion.css">
+</head>
+<body>
+
+<div id="loading">Chargement de l'expérience 3D...</div>
+
+<!-- Calque 3D fixe, entre le hero (z:0) et le contenu flottant (z:2) -->
+<div id="canvas3dWrap">
+  <canvas id="canvas3d"></canvas>
+</div>
+
+<header>
+  <nav class="nav">
+    <a href="index.html" class="logo"><img src="assets/LOGO-ozep.jpg" alt="Logo OZEP" class="logo-img"></a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="realisations.html">Réalisations</a></li>
+      <li><a href="apropos.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li class="mobile-devis-item"><a href="contact.html" class="btn btn-primary mobile-devis">Demander un devis</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-primary devis-btn">Contacter Nous</a>
+    <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<!-- ============================================================
+     HERO — image fixe unique, plein écran, EXACTEMENT comme
+     l'accueil (.hero est déjà position:fixed dans style.css).
+     Le reste de la page (.page-content) vient flotter par-dessus.
+     ============================================================ -->
+<section class="hero services-hero" id="hero" data-zone="hero">
+  <div class="services-hero-bg"></div>
+  <div class="services-hero-content wrap">
+    <div class="eyebrow-label">Nos domaines d'intervention</div>
+    <h1>Quatre terrains. Une seule obsession : la solidité.</h1>
+    <p>BTP, ingénierie minière, géotechnique et hydraulique : quatre domaines d'expertises, une seule exigence, l'excellence.</p>
+    <div class="hero-actions">
+      <a href="#genie-civil" class="btn btn-primary">Découvrir nos expertises</a>
+      <a href="contact.html" class="btn btn-outline">Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTENU FLOTTANT — tout le reste de la page vient par-dessus
+     le hero fixe, avec des marges qui laissent apparaître le hero
+     (et la mini-animation 3D) à gauche et à droite.
+     ============================================================ -->
+<div class="page-content">
+  <div class="stripe"></div>
+
+  <!-- ============================================================
+       LES 4 DOMAINES — vue d'ensemble en ACCORDÉON
+       Un seul panneau ouvert à la fois, clic ou clavier (Entrée/
+       Espace) pour changer, "En savoir plus" renvoie vers le
+       détail plus bas sur la page.
+       ============================================================ -->
+  <section class="services" data-zone="overview" style="padding-top:80px;">
+    <div class="wrap">
+      <div class="services-head">
+        <div>
+          <div class="eyebrow-label">Nos domaines d'activité</div>
+          <h2 class="section-title">QUATRE EXPERTISES, UNE SEULE EXIGENCE : L'EXCELLENCE</h2>
+        </div>
+      </div>
+
+      <div class="services-accordion" role="tablist" aria-label="Nos quatre domaines d'intervention">
+
+        <div class="acc-item is-active" tabindex="0" role="button" aria-expanded="true" data-target="genie-civil">
+          <div class="acc-bg" style="background-image:url('assets/btp-complexe-fini-et-construit1.png')"></div>
+          <div class="acc-overlay"></div>
+          <div class="acc-info">
+            <div class="acc-num">01</div>
+            <div class="acc-label">Génie civil &amp; BTP</div>
+            <div class="acc-panel">
+              <p>Études, conception et réalisation d'ouvrages de bâtiment et d'infrastructures publiques.</p>
+              <a href="#genie-civil" class="acc-link">En savoir plus →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item" tabindex="0" role="button" aria-expanded="false" data-target="mines">
+          <div class="acc-bg" style="background-image:url('assets/mine-etude-mineraux.jpg')"></div>
+          <div class="acc-overlay"></div>
+          <div class="acc-info">
+            <div class="acc-num">02</div>
+            <div class="acc-label">Ingénierie minière</div>
+            <div class="acc-panel">
+              <p>De la prospection géologique à l'assistance à l'exploitation artisanale et industrielle.</p>
+              <a href="#mines" class="acc-link">En savoir plus →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item" tabindex="0" role="button" aria-expanded="false" data-target="geotechnique">
+          <div class="acc-bg" style="background-image:url('assets/etude-geotechnique.png')"></div>
+          <div class="acc-overlay"></div>
+          <div class="acc-info">
+            <div class="acc-num">03</div>
+            <div class="acc-label">Étude géotechnique</div>
+            <div class="acc-panel">
+              <p>On lit le sol avant que personne d'autre n'ose s'y aventurer, pour sécuriser votre projet dès la conception.</p>
+              <a href="#geotechnique" class="acc-link">En savoir plus →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item" tabindex="0" role="button" aria-expanded="false" data-target="hydraulique">
+          <div class="acc-bg" style="background-image:url('assets/forage-image-a-utiliser.jpeg')"></div>
+          <div class="acc-overlay"></div>
+          <div class="acc-info">
+            <div class="acc-num">04</div>
+            <div class="acc-label">Hydraulique</div>
+            <div class="acc-panel">
+              <p>Captage, canalisation, distribution : parce qu'un projet qui ignore l'eau a déjà un pied dans le sable.</p>
+              <a href="#hydraulique" class="acc-link">En savoir plus →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DÉTAIL 1 — GÉNIE CIVIL / BTP — texte à gauche, image à droite
+       ============================================================ -->
+  <section class="expertise-block" id="genie-civil" data-zone="service1">
+    <div class="wrap expertise-grid">
+      <div class="expertise-text reveal-left">
+        <div class="service-num">01 — BTP</div>
+        <h3>Du croquis à la route qu'on emprunte tous les jours.</h3>
+        <p>OZEP intervient sur des projets de génie civil : routes, ponts, barrages, bâtiments industriels. De la conception à la réalisation, chaque étape est suivie avec précision.</p>
+      </div>
+      <div class="expertise-image reveal-right">
+        <img src="assets/btp-maison-construit-et-fini.jpg" alt="Bâtiment et travaux publics">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DÉTAIL 2 — INGÉNIERIE MINIÈRE — texte à gauche, image à droite
+       ============================================================ -->
+  <section class="expertise-block" id="mines" data-zone="service2">
+    <div class="wrap expertise-grid">
+      <div class="expertise-text reveal-left">
+        <div class="service-num">02 — Mines</div>
+        <h3>La terre garde ses secrets ; on sait où chercher.</h3>
+        <p>OZEP accompagne les projets miniers dans leur conception, leur modélisation et leur sécurisation. Nos experts assurent une gestion technique et environnementale maîtrisée.</p>
+      </div>
+      <div class="expertise-image reveal-right">
+        <img src="assets/mine-membre-ozep-explotation-d-un-puit-creusere.jpg" alt="Ingénierie minière">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DÉTAIL 3 — GÉOTECHNIQUE — texte à gauche, image à droite
+       ============================================================ -->
+  <section class="expertise-block" id="geotechnique" data-zone="service3">
+    <div class="wrap expertise-grid">
+      <div class="expertise-text reveal-left">
+        <div class="service-num">03 — Géotechnique</div>
+        <h3>Avant de viser haut, on vérifie ce qu'il y a en dessous.</h3>
+        <p>OZEP réalise des études géotechniques précises pour garantir la stabilité des constructions. Sondages, essais, diagnostics et recommandations techniques sont menés avec rigueur.</p>
+      </div>
+      <div class="expertise-image reveal-right">
+        <img src="assets/mine-etude-du-sol-par-membre-ozep1.png" alt="Étude géotechnique">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DÉTAIL 4 — HYDRAULIQUE — texte à gauche, image à droite
+       ============================================================ -->
+  <section class="expertise-block" id="hydraulique" data-zone="service4">
+    <div class="wrap expertise-grid">
+      <div class="expertise-text reveal-left">
+        <div class="service-num">04 — Hydraulique</div>
+        <h3>L'eau ne pardonne aucune erreur. Nous non plus.</h3>
+        <p>OZEP conçoit et met en œuvre des réseaux d'eau potable, d'assainissement et de drainage adaptés aux besoins des collectivités et des sites industriels.</p>
+      </div>
+      <div class="expertise-image reveal-right">
+        <img src="assets/forage-image-a-utiliser.jpeg" alt="Ouvrage hydraulique">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       POURQUOI COLLABORER AVEC OZEP
+       ============================================================ -->
+  <section class="why">
+    <div class="wrap">
+      <div class="eyebrow-label">Pourquoi collaborer avec OZEP</div>
+      <h2 class="section-title" style="color:var(--white); opacity:1; transform:none; max-width:1080px;">Notre engagement, votre réussite. Chez OZEP Group, nous croyons que chaque projet mérite une approche sur mesure, fondée sur la rigueur technique, l'innovation et le respect des normes les plus exigeantes. Acteur reconnu dans les secteurs du génie civil, de la géotechnique, de l'ingénierie minière et de l'hydraulique &amp; assainissement, nous accompagnons nos clients à chaque étape — de l'étude à la réalisation — avec une exigence constante de qualité et de fiabilité.</h2>
+      <div class="why-list reveal-up" style="margin-top:36px; max-width:720px;">
+        <div class="why-item">
+          <div class="icon">✓</div>
+          <div>
+            <h4>Un partenariat fiable</h4>
+            <p>Sans mauvaises surprises en cours de route.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="icon">✓</div>
+          <div>
+            <h4>Hygiène, santé et sécurité</h4>
+            <p>Le respect strict des normes HSST au travail.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="icon">✓</div>
+          <div>
+            <h4>Des engagements tenus</h4>
+            <p>Un mot donné est un mot tenu.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="icon">✓</div>
+          <div>
+            <h4>Innovation durable</h4>
+            <p>Une approche innovante et durable, tournée vers demain.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="icon">✓</div>
+          <div>
+            <h4>Un accompagnement sur-mesure</h4>
+            <p>Taillé pour VOTRE projet, pas pour un modèle générique.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <h2>Un projet en tête ? On est déjà prêts.</h2>
+      <p>Simplicité et efficacité : votre projet avance dès le premier contact à OZEP.</p>
+      <div class="hero-actions" style="justify-content:center;">
+        <a href="contact.html" class="btn" style="background:var(--black); color:var(--white);">Demander un devis</a>
+        <a href="contact.html" class="btn btn-outline">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo"><img src="assets/LOGO-ozep.jpg" alt="OZEP" class="LOGO ozep"></div>
+          <p style="max-width:280px; font-size:14.5px; color:rgb(249, 249, 250);">OZEP Group — Bâtir sur nos valeurs africaines. Choisir OZEP, c'est opter pour un partenaire engagé, réactif et à l'écoute.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Navigation</h5>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="realisations.html">Réalisations</a></li>
+            <li><a href="apropos.html">À propos</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Domaines</h5>
+          <ul>
+            <li><a href="#genie-civil">BTP</a></li>
+            <li><a href="#mines">Mines</a></li>
+            <li><a href="#hydraulique">Hydraulique</a></li>
+            <li><a href="#geotechnique">Géotechniques</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="mailto:ouezan52@gmail.com">ouezan52@gmail.com</a></li>
+            <li><a href="tel:+22656588397">+226 56 58 83 97</a></li>
+            <li><a href="tel:+22662038404">+226 62 03 84 04</a></li>
+            <li>Ouagadougou, Burkina Faso</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 OZEP. Tous droits réservés.</span>
+        <span>Mentions légales</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="js/script.js"></script>
+<!-- Accordéon interactif des 4 services -->
+<script src="js/services-accordion.js"></script>
+
+<!-- Three.js — nécessaire uniquement sur cette page -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="js/services-animation.js"></script>
+
+</body>
+</html>
