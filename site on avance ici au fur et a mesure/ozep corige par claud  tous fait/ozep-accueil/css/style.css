@@ -369,6 +369,11 @@ header.is-scrolling {
   display: block;
 }
 
+/* Image de remplacement sur mobile (cachée sur PC/tablette, voir media query) */
+.slide-image {
+  display: none;
+}
+
 .hero.is-expanded .slide.active .slide-bg {
   animation: hero-film-move 6.8s ease-in-out infinite alternate;
 }
@@ -1748,6 +1753,547 @@ footer {
   .btn {
     font-size: 14.5px;
     padding: 12px 20px;
+  }
+}
+
+/* ============================================================
+   HERO MOBILE — téléphone uniquement (≤ 600px)
+   Le hero n'est plus fixe/plein écran : il redevient un bloc normal
+   qui défile avec la page (comme sur snydercg.com sur mobile),
+   avec un fondu simple à la place du carrousel 3D desktop/tablette.
+   ============================================================ */
+@media (max-width: 600px) {
+  /* Entête compacte, blanche et transparente (au lieu de noire) */
+  .nav {
+    height: 84px;
+  }
+
+  .logo-img {
+    height: 56px;
+  }
+
+  header {
+    background: rgba(30, 29, 29, 0.752);
+    backdrop-filter: blur(8px) brightness(1.6) saturate(0.7);
+    -webkit-backdrop-filter: blur(8px) brightness(1.6) saturate(0.7);
+    border-bottom: 1px solid rgba(20, 20, 20, 0.03);
+  }
+
+  header.is-scrolling {
+    background: rgba(51, 20, 1, 0.753);
+    backdrop-filter: blur(10px) brightness(1.15);
+    -webkit-backdrop-filter: blur(10px) brightness(1.15);
+    border-bottom: 1px solid rgba(248, 125, 2, 0.35);
+  }
+
+  /* Fond blanc pour l'espace entre le haut du téléphone (sous l'entête
+     transparente) et le début du hero, au lieu du noir du body */
+  body {
+    background: #ffffff;
+  }
+
+  /* Hamburger foncé pour rester visible sur fond clair */
+  .burger span {
+    background: var(--black);
+  }
+
+  /* Le reste de la page prend toute la largeur de l'écran (plus de bandes noires) */
+  .page-content {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    background: none;
+  }
+
+  .page-content .wrap {
+    padding: 0 20px;
+  }
+
+  /* Vidéos remplacées par des images avec effet "Ken Burns" (zoom/pan lent) */
+  .slide-video {
+    display: none;
+  }
+
+  /* On désactive l'animation de fond du PC (tremblement/zoom sur .slide-bg,
+     définie plus bas dans le fichier) : elle se combinait avec notre Ken Burns
+     et créait un "saut" de zoom disgracieux. Sur mobile, seule .slide-image
+     doit bouger, proprement. */
+  .slide-bg {
+    transform: none;
+  }
+
+  .hero.is-expanded .slide.active .slide-bg {
+    animation: none !important;
+  }
+
+  .slide-image {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.02);
+  }
+
+  .slide.active .slide-image {
+    animation: hero-kenburns-a 15s ease-in-out infinite alternate;
+  }
+
+  .slide:nth-child(2n).active .slide-image {
+    animation-name: hero-kenburns-b;
+    animation-duration: 17s;
+  }
+
+  .slide:nth-child(3n).active .slide-image {
+    animation-name: hero-kenburns-c;
+    animation-duration: 14s;
+  }
+
+  .slide:nth-child(4n).active .slide-image {
+    animation-name: hero-kenburns-b;
+    animation-duration: 18s;
+  }
+
+  .slide:nth-child(5n).active .slide-image {
+    animation-name: hero-kenburns-a;
+    animation-duration: 16s;
+  }
+
+  /* Trois variantes de mouvement (zoom + léger déplacement), pour que
+     chaque image se comporte comme un plan de caméra différent au lieu
+     d'un simple zoom répétitif */
+  @keyframes hero-kenburns-a {
+    0% {
+      transform: scale(1.04) translate(0%, 0%);
+    }
+    50% {
+      transform: scale(1.13) translate(-3%, -1.5%);
+    }
+    100% {
+      transform: scale(1.07) translate(-1.5%, 1%);
+    }
+  }
+
+  @keyframes hero-kenburns-b {
+    0% {
+      transform: scale(1.05) translate(0%, 0%);
+    }
+    50% {
+      transform: scale(1.12) translate(3%, -2%);
+    }
+    100% {
+      transform: scale(1.06) translate(2%, 1.5%);
+    }
+  }
+
+  @keyframes hero-kenburns-c {
+    0% {
+      transform: scale(1.1) translate(1%, -1%);
+    }
+    50% {
+      transform: scale(1.03) translate(-1.5%, 0%);
+    }
+    100% {
+      transform: scale(1.12) translate(0%, 1.5%);
+    }
+  }
+
+  /* Fondu propre entre les slides + mise en plein écran (mobile uniquement) :
+     seule la slide active est visible, transform neutralisé pour ignorer
+     le calcul 3D par distance utilisé pour le carrousel desktop/tablette */
+  .slide {
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    border-radius: 0;
+    box-shadow: none;
+    align-items: flex-end;
+    padding-bottom: 40px;
+    opacity: 0 !important;
+    z-index: 1 !important;
+    transition: opacity 0.9s ease !important;
+  }
+
+  .slide.active {
+    opacity: 1 !important;
+    z-index: 5 !important;
+  }
+
+  /* Hero : redevient un bloc normal qui défile avec la page,
+     taille raisonnable (pas plus grand que le reste de la page) */
+  .hero {
+    position: relative;
+    inset: auto;
+    margin-top: 100px;
+    height: 46vh;
+    min-height: 320px;
+    max-height: 440px;
+  }
+
+  .hero-scene,
+  .hero-track {
+    position: absolute;
+    inset: 0;
+  }
+
+  .slide-bg::after {
+    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.30) 55%, rgba(0,0,0,0.85) 100%);
+  }
+
+  .slide-content {
+    padding: 0 20px;
+    transform: translateX(-36px) !important;
+    transition: opacity 0.9s cubic-bezier(.16,1,.3,1) 0.12s, transform 0.9s cubic-bezier(.16,1,.3,1) 0.12s !important;
+  }
+
+  .hero.is-expanded .slide.active .slide-content {
+    transform: translateX(0) !important;
+  }
+
+  /* On garde uniquement le titre en gras, on masque le petit texte fin */
+  .slide-content p {
+    display: none;
+  }
+
+  /* Boutons du hero : style "lien" discret (texte + »), comme Snyder,
+     au lieu des gros boutons pleins utilisés sur PC/tablette */
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  .hero-actions .btn {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    color: var(--orange) !important;
+    font-size: 14.5px;
+  }
+
+  .hero-actions .btn::before {
+    display: none;
+  }
+
+  .hero-actions .btn::after {
+    content: " »";
+  }
+
+  .hero-nav {
+    bottom: 12px;
+    padding: 0 20px;
+  }
+
+  .dot {
+    width: 18px;
+  }
+
+  .arrow-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .page-content {
+    margin-top: 0;
+  }
+
+  /* Les 3 statistiques restent sur une seule ligne sur mobile
+     (au lieu de s'empiler), avec des tailles réduites. Le bloc du
+     milieu a des styles écrits en direct dans le HTML (inline) : on
+     doit utiliser !important pour passer au-dessus. */
+  .intro-stats {
+    display: flex;
+    flex-wrap: nowrap !important;
+    gap: 6px;
+    justify-content: space-between;
+  }
+
+  .intro-stats .stat {
+    flex: 1 1 0 !important;
+    max-width: none !important;
+    min-width: 0;
+    padding: 8px 3px !important;
+  }
+
+  .intro-stats .stat-icon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .intro-stats .stat-icon svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .intro-stats .stat b {
+    font-size: 19px !important;
+  }
+
+  .intro-stats .stat span {
+    font-size: 9px !important;
+    letter-spacing: 0.2px !important;
+  }
+
+  /* Bloc du milieu ("Bâtir sur nos valeurs africaines") : réduit pour
+     tenir sur la même ligne que les 2 autres */
+  .intro-stats .stat:nth-child(2) > div:first-child {
+    width: 34px !important;
+    height: 34px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .intro-stats .stat:nth-child(2) > div:first-child svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .intro-stats .stat:nth-child(2) > b {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+  }
+
+  .intro-stats .stat:nth-child(2) > b span {
+    font-size: 10px !important;
+  }
+
+  .intro-stats .stat:nth-child(2) > span {
+    font-size: 8px !important;
+    margin-top: 3px !important;
+  }
+
+  /* Transition entre les 2 photos "Qui sommes-nous" : glissement
+     latéral. La photo qui arrive vient de la gauche pendant que celle
+     qui s'en va part vers la droite (comme un carrousel "push"). La
+     toute première photo (terrain) reste affichée normalement dès
+     l'arrivée sur la page, sans jouer cette transition au chargement. */
+  .intro-img {
+    transition: transform 0.85s cubic-bezier(0.65, 0, 0.35, 1) !important;
+    opacity: 1 !important;
+  }
+
+  .intro-img-terrain {
+    transform: translateX(0) !important;
+  }
+
+  .intro-img-terrain.inactive {
+    transform: translateX(100%) !important;
+  }
+
+  .intro-img-bureau {
+    transform: translateX(-100%) !important;
+  }
+
+  .intro-img-bureau.active {
+    transform: translateX(0) !important;
+  }
+
+  /* Les icônes des 3 statistiques montent/descendent en boucle,
+     chacune légèrement décalée pour un effet plus naturel */
+  .intro-stats .stat-icon,
+  .intro-stats .stat:nth-child(2) > div:first-child {
+    animation: stat-icon-bob 2.6s ease-in-out infinite;
+  }
+
+  .intro-stats .stat:nth-child(1) .stat-icon {
+    animation-delay: 0s;
+  }
+
+  .intro-stats .stat:nth-child(2) > div:first-child {
+    animation-delay: 0.3s;
+  }
+
+  .intro-stats .stat:nth-child(3) .stat-icon {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes stat-icon-bob {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  /* Le bloc "Qui sommes-nous" ne doit plus attendre le scroll pour
+     apparaître : il est visible dès l'arrivée sur la page (on annule
+     l'état caché de .stagger-reveal, en plus prioritaire grâce aux
+     deux classes .intro-text.stagger-reveal) */
+  .intro-text.stagger-reveal > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Texte "Qui sommes-nous" vivant : un léger reflet lumineux balaie
+     le titre en continu ET le titre flotte doucement de haut en bas,
+     pour une vraie impression de mouvement, pas seulement de couleur. */
+  .intro-text .section-title {
+    background: linear-gradient(100deg, var(--black) 42%, var(--orange) 50%, var(--black) 58%);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: intro-text-shimmer 6.5s ease-in-out infinite, intro-text-float 4.5s ease-in-out infinite;
+  }
+
+  @keyframes intro-text-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -60% 0;
+    }
+  }
+
+  @keyframes intro-text-float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  /* ============================================================
+     Cartes "Nos domaines d'activité" — refonte mobile :
+     l'image devient le FOND de la carte (au lieu d'être en dessous
+     du texte), le texte se lit par-dessus avec un dégradé sombre.
+     ============================================================ */
+  .service-card {
+    position: relative;
+    min-height: 230px;
+    display: block;
+    isolation: isolate;
+  }
+
+  .service-img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .service-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* La 2e image (utilisée pour la bascule au toucher) est cachée par
+     défaut, et devient visible quand on touche la carte */
+  .service-img img:last-child {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .service-card.show-alt-img .service-img img:last-child {
+    opacity: 1;
+  }
+
+  .service-card.show-alt-img .service-img img:first-child {
+    opacity: 0;
+  }
+
+  .service-body {
+    position: relative;
+    z-index: 2;
+    min-height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px 18px 22px;
+    background: linear-gradient(180deg, rgba(6,6,6,0.5) 0%, rgba(6,6,6,0.58) 45%, rgba(6,6,6,0.9) 100%);
+  }
+
+  .service-card h3,
+  .service-card .service-link {
+    color: var(--white);
+  }
+
+  .service-card p {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  /* Entrée au scroll : gérée en JavaScript (voir js/script.js), pour
+     un mouvement continu, lié à la position du scroll, avec la
+     direction qui s'inverse selon qu'on descend ou qu'on remonte.
+     On part juste d'un état neutre ici. */
+  .service-card {
+    will-change: transform, opacity;
+  }
+
+  /* Une fois affichée, la carte reste vivante : léger mouvement
+     continu haut/bas/gauche/droite (appliqué au contenu texte, pas à
+     la carte elle-même, pour ne pas entrer en conflit avec le
+     positionnement piloté par le scroll). */
+  .service-card.is-visible .service-body {
+    animation: service-body-float 5s ease-in-out infinite;
+  }
+
+  @keyframes service-body-float {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(3px, -4px);
+    }
+    50% {
+      transform: translate(-3px, 2px);
+    }
+    75% {
+      transform: translate(2px, 3px);
+    }
+  }
+
+  .service-card.is-visible .service-img img:first-child {
+    animation: service-img-breathe 6s ease-in-out infinite alternate;
+  }
+
+  @keyframes service-img-breathe {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.08);
+    }
+  }
+
+  .service-card.is-visible .service-num {
+    animation: service-num-pulse 2.8s ease-in-out infinite;
+  }
+
+  @keyframes service-num-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .service-card.is-visible .service-link::after {
+    display: inline-block;
+    animation: service-link-nudge 1.6s ease-in-out infinite;
+  }
+
+  @keyframes service-link-nudge {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(6px);
+    }
   }
 }
 

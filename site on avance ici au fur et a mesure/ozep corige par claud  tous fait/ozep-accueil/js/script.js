@@ -668,7 +668,7 @@ if (window.matchMedia('(pointer: fine)').matches) {
   cursorMutationObserver.observe(document.body, { childList: true, subtree: true });
 }
 
-const introSection = document.querySelector('.intro');
+const introSection = document.querySelector('.intro-image-container') || document.querySelector('.intro');
 const imgTerrain = document.querySelector('.intro-img-terrain');
 const imgBureau = document.querySelector('.intro-img-bureau');
 
@@ -791,3 +791,77 @@ if (introSection && imgTerrain && imgBureau) {
     }
   });
 })();
+
+// ============================================================
+// Cartes "Nos domaines d'activité" : bascule entre 2 images au
+// toucher (mobile uniquement). Un appui sur la carte change
+// l'image affichée, un nouvel appui la change à nouveau.
+// ============================================================
+if (window.matchMedia('(max-width: 600px)').matches) {
+  document.querySelectorAll('.service-card').forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      // Ne pas basculer l'image si on a touché le lien "En savoir plus"
+      if (e.target.closest('.service-link')) return;
+      card.classList.toggle('show-alt-img');
+    });
+  });
+}
+
+// ============================================================
+// Cartes "Nos domaines d'activité" : mouvement lié au scroll.
+// Chaque carte glisse en fonction de la distance qui la sépare du
+// centre de l'écran (0 = vient d'apparaître en bas, 1 = bien en
+// place). La direction du glissement dépend du sens du scroll :
+// on descend -> la carte arrive de la droite ; on remonte -> elle
+// arrive de la gauche. Mobile uniquement.
+// ============================================================
+if (window.matchMedia('(max-width: 600px)').matches) {
+  const serviceCardsScroll = document.querySelectorAll('.service-card');
+
+  if (serviceCardsScroll.length) {
+    let lastScrollY = window.scrollY;
+    let scrollDir = 'down';
+    let tickingServiceCards = false;
+
+    function updateServiceCardsPosition() {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY) {
+        scrollDir = 'down';
+      } else if (currentScrollY < lastScrollY) {
+        scrollDir = 'up';
+      }
+      lastScrollY = currentScrollY;
+
+      const vh = window.innerHeight;
+
+      serviceCardsScroll.forEach(function (card) {
+        const rect = card.getBoundingClientRect();
+        // progress : 0 quand la carte vient d'entrer en bas de l'écran,
+        // 1 quand elle est bien en place (un peu avant le centre)
+        let progress = (vh - rect.top) / (vh * 0.62);
+        progress = Math.max(0, Math.min(1, progress));
+
+        // Décalage basé sur la largeur réelle de la carte : elle démarre
+        // largement hors-écran (65% de sa largeur) pour que le glissement
+        // se voie clairement, au lieu d'un simple fondu.
+        const maxOffset = rect.width * 0.65;
+        const offset = (1 - progress) * maxOffset;
+        const translateX = scrollDir === 'down' ? offset : -offset;
+
+        card.style.transform = 'translateX(' + translateX.toFixed(1) + 'px)';
+        card.style.opacity = '1';
+      });
+
+      tickingServiceCards = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!tickingServiceCards) {
+        window.requestAnimationFrame(updateServiceCardsPosition);
+        tickingServiceCards = true;
+      }
+    }, { passive: true });
+
+    updateServiceCardsPosition();
+  }
+}
