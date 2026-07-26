@@ -354,9 +354,114 @@ const serviceObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.2 });
 
-serviceCards.forEach(card => {
-  serviceObserver.observe(card);
-});
+// Sur mobile, on remplace le déclenchement ci-dessus par un calcul précis :
+// la carte devient visible seulement quand son propre centre atteint (ou
+// dépasse) le centre réel de l'écran — pas une estimation approximative.
+if (window.matchMedia('(max-width: 600px)').matches) {
+  const serviceCardsCenter = document.querySelectorAll('.service-card');
+  if (serviceCardsCenter.length) {
+    let tickingServiceCenter = false;
+
+    function updateServiceCardsCenter() {
+      // Ligne de déclenchement plus basse que le milieu de l'écran (82% de
+      // la hauteur), pour que la carte apparaisse pendant qu'elle est
+      // encore proche du bas — pas seulement une fois arrivée au milieu.
+      const triggerLine = window.innerHeight * 0.82;
+      serviceCardsCenter.forEach(function (card) {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.top + rect.height / 2;
+        if (cardCenter <= triggerLine) {
+          card.classList.add('is-visible');
+        } else {
+          card.classList.remove('is-visible');
+        }
+      });
+      tickingServiceCenter = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!tickingServiceCenter) {
+        window.requestAnimationFrame(updateServiceCardsCenter);
+        tickingServiceCenter = true;
+      }
+    }, { passive: true });
+
+    updateServiceCardsCenter();
+  }
+}
+
+// Même technique que ci-dessus (calcul direct du scroll, plus fiable que
+// IntersectionObserver sur certains téléphones), appliquée cette fois aux
+// points de la section "Pourquoi nous choisir".
+if (window.matchMedia('(max-width: 600px)').matches) {
+  const whyItemsCenter = document.querySelectorAll('.why-item');
+  if (whyItemsCenter.length) {
+    let tickingWhyItems = false;
+
+    function updateWhyItemsCenter() {
+      const triggerLine = window.innerHeight * 0.8;
+      whyItemsCenter.forEach(function (item) {
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.top + rect.height / 2;
+        if (itemCenter <= triggerLine) {
+          item.classList.add('is-visible');
+        } else {
+          item.classList.remove('is-visible');
+        }
+      });
+      tickingWhyItems = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!tickingWhyItems) {
+        window.requestAnimationFrame(updateWhyItemsCenter);
+        tickingWhyItems = true;
+      }
+    }, { passive: true });
+
+    updateWhyItemsCenter();
+  }
+}
+
+// Petit cadre-photo de "Pourquoi nous choisir" : tout le cadre (pas
+// juste l'image à l'intérieur) bouge légèrement avec le scroll
+// (monte/descend selon le mouvement), effet "parallax" léger.
+if (window.matchMedia('(max-width: 600px)').matches) {
+  const whyImageParallax = document.querySelector('.why-image');
+  if (whyImageParallax) {
+    let tickingWhyImage = false;
+
+    function updateWhyImageParallax() {
+      const rect = whyImageParallax.parentElement.getBoundingClientRect();
+      const vh = window.innerHeight;
+      let progress = (vh - rect.top) / (vh + rect.height);
+      progress = Math.max(0, Math.min(1, progress));
+      // Amplitude asymétrique : le haut du parcours reste comme avant,
+      // mais le bas descend plus loin.
+      const offset = progress < 0.5 ? (progress - 0.5) * 300 : (progress - 0.5) * 720;
+      whyImageParallax.style.transform = 'translateY(' + offset.toFixed(1) + 'px) translateZ(0)';
+      tickingWhyImage = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!tickingWhyImage) {
+        window.requestAnimationFrame(updateWhyImageParallax);
+        tickingWhyImage = true;
+      }
+    }, { passive: true });
+
+    updateWhyImageParallax();
+  }
+}
+
+// Sur mobile, le centre-écran ci-dessus gère déjà .is-visible : on évite
+// que cet observer (moins précis) vienne aussi y toucher et créer un
+// conflit entre les deux mécanismes.
+if (!window.matchMedia('(max-width: 600px)').matches) {
+  serviceCards.forEach(card => {
+    serviceObserver.observe(card);
+  });
+}
 
 const typewriterTitle = document.querySelector('.typewriter-title');
 const whyGrid = document.querySelector('.why-grid');
@@ -587,7 +692,17 @@ if (workTrack && workCards.length > 0) {
   });
 }
 
-const revealElements = document.querySelectorAll('.reveal-up, .reveal-down, .reveal-left, .reveal-right, .reveal-spin, .reveal-zoom');
+// .service-card et .why-item portent la classe .reveal-zoom / .reveal-left
+// (pour hériter du même style que d'autres éléments du site), MAIS sur
+// mobile leur apparition est désormais pilotée par un calcul direct du
+// scroll (plus fiable, voir plus haut). On les exclut donc ici pour éviter
+// que les deux mécanismes se battent en même temps sur les mêmes éléments.
+const revealElements = Array.from(
+  document.querySelectorAll('.reveal-up, .reveal-down, .reveal-left, .reveal-right, .reveal-spin, .reveal-zoom')
+).filter(function (el) {
+  const isMobile = window.matchMedia('(max-width: 600px)').matches;
+  return !(isMobile && (el.classList.contains('service-card') || el.classList.contains('why-item')));
+});
 
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -808,60 +923,11 @@ if (window.matchMedia('(max-width: 600px)').matches) {
 }
 
 // ============================================================
-// Cartes "Nos domaines d'activité" : mouvement lié au scroll.
-// Chaque carte glisse en fonction de la distance qui la sépare du
-// centre de l'écran (0 = vient d'apparaître en bas, 1 = bien en
-// place). La direction du glissement dépend du sens du scroll :
-// on descend -> la carte arrive de la droite ; on remonte -> elle
-// arrive de la gauche. Mobile uniquement.
+// Cartes "Nos domaines d'activité" : l'apparition (glissement +
+// légère montée en diagonale) est maintenant gérée par CSS, via la
+// classe .is-visible (voir plus haut dans ce fichier, "serviceObserver")
+// combinée aux styles .service-card.reveal-zoom dans style.css.
+// Ancien code (mouvement "temps réel" piloté au pixel près par le
+// scroll) retiré : il ne se déclenchait pas de façon fiable sur tous
+// les téléphones/navigateurs testés.
 // ============================================================
-if (window.matchMedia('(max-width: 600px)').matches) {
-  const serviceCardsScroll = document.querySelectorAll('.service-card');
-
-  if (serviceCardsScroll.length) {
-    let lastScrollY = window.scrollY;
-    let scrollDir = 'down';
-    let tickingServiceCards = false;
-
-    function updateServiceCardsPosition() {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY) {
-        scrollDir = 'down';
-      } else if (currentScrollY < lastScrollY) {
-        scrollDir = 'up';
-      }
-      lastScrollY = currentScrollY;
-
-      const vh = window.innerHeight;
-
-      serviceCardsScroll.forEach(function (card) {
-        const rect = card.getBoundingClientRect();
-        // progress : 0 quand la carte vient d'entrer en bas de l'écran,
-        // 1 quand elle est bien en place (un peu avant le centre)
-        let progress = (vh - rect.top) / (vh * 0.62);
-        progress = Math.max(0, Math.min(1, progress));
-
-        // Décalage basé sur la largeur réelle de la carte : elle démarre
-        // largement hors-écran (65% de sa largeur) pour que le glissement
-        // se voie clairement, au lieu d'un simple fondu.
-        const maxOffset = rect.width * 0.65;
-        const offset = (1 - progress) * maxOffset;
-        const translateX = scrollDir === 'down' ? offset : -offset;
-
-        card.style.transform = 'translateX(' + translateX.toFixed(1) + 'px)';
-        card.style.opacity = '1';
-      });
-
-      tickingServiceCards = false;
-    }
-
-    window.addEventListener('scroll', function () {
-      if (!tickingServiceCards) {
-        window.requestAnimationFrame(updateServiceCardsPosition);
-        tickingServiceCards = true;
-      }
-    }, { passive: true });
-
-    updateServiceCardsPosition();
-  }
-}

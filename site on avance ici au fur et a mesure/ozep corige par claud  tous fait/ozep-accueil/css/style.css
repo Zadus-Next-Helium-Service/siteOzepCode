@@ -1053,6 +1053,13 @@ h2.section-title {
   filter: blur(0px) brightness(1);
 }
 
+/* Le logo (image mobile) est caché par défaut : il n'apparaît que sur
+   téléphone (voir @media max-width:600px), où il remplace la grande
+   photo utilisée sur PC/tablette. */
+.why-image-mobile {
+  display: none;
+}
+
 .why-image:hover img {
   transform: scale(1.08);
 }
@@ -1286,6 +1293,11 @@ h2.section-title {
 .work-track-wrap {
   overflow: hidden;
   position: relative;
+  /* Marge verticale : sans ça, l'ombre "flottante" des cartes
+     (box-shadow) serait coupée en haut/bas par ce overflow:hidden
+     (nécessaire pour cacher le défilement horizontal infini). */
+  padding: 26px 0;
+  margin: -26px 0;
 }
 
 .work-track {
@@ -1317,8 +1329,16 @@ h2.section-title {
   height: 260px;
   overflow: hidden;
   border-radius: 10px;
-  transition: box-shadow 0.4s ease;
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
   will-change: transform;
+  /* Ombre large et marquée : donne l'impression que la carte flotte
+     au-dessus du fond de la section, plutôt qu'une simple image plate. */
+  box-shadow: 0 22px 46px rgba(20, 20, 20, 0.24), 0 8px 18px rgba(20, 20, 20, 0.14);
+}
+
+.work-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(20, 20, 20, 0.30), 0 12px 22px rgba(20, 20, 20, 0.18);
 }
 
 .work-card img {
@@ -1764,6 +1784,16 @@ footer {
    ============================================================ */
 @media (max-width: 600px) {
   /* Entête compacte, blanche et transparente (au lieu de noire) */
+  /* Empêche la page de pouvoir défiler horizontalement : les cartes
+     encore cachées (avant leur apparition) sont décalées de 120px vers
+     la droite, ce qui pouvait élargir la page au-delà de l'écran et la
+     décaler tout entière (texte coupé à gauche, espace blanc à droite). */
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
   .nav {
     height: 84px;
   }
@@ -1777,6 +1807,13 @@ footer {
     backdrop-filter: blur(8px) brightness(1.6) saturate(0.7);
     -webkit-backdrop-filter: blur(8px) brightness(1.6) saturate(0.7);
     border-bottom: 1px solid rgba(20, 20, 20, 0.03);
+    /* Empêche l'entête de clignoter/disparaître pendant le scroll sur
+       certains téléphones (bug connu : position:fixed + backdrop-filter
+       mal géré pendant le défilement rapide). On force le téléphone à
+       garder l'entête sur une couche stable à part. */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
   }
 
   header.is-scrolling {
@@ -2170,9 +2207,36 @@ footer {
      ============================================================ */
   .service-card {
     position: relative;
-    min-height: 230px;
+    height: 300px; /* hauteur FIXE et précise (plus fiable entre
+                       navigateurs qu'une hauteur "minimale") : l'image
+                       et le voile se calent dessus à coup sûr, sans
+                       ambiguïté possible selon le téléphone/navigateur */
     display: block;
     isolation: isolate;
+  }
+
+  /* Le PC fait apparaître les cartes en fondu depuis opacity:0 + scale(0.8)
+     (règle .service-card plus haut) ET la classe .reveal-zoom (présente sur
+     ces mêmes cartes en HTML) refait la même chose en double avec sa propre
+     transition. Sur mobile, l'entrée est gérée à 100% en temps réel par le
+     scroll (voir plus bas + js/script.js) : ces deux transitions CSS venaient
+     "lisser"/retarder chaque mise à jour du JS, ce qui donnait cet effet de
+     flash gris/terne avant que la carte n'apparaisse. On les neutralise ici
+     avec un sélecteur plus précis (.service-card.reveal-zoom) pour être sûr
+     de l'emporter sur les deux règles d'origine. */
+  .service-card.reveal-zoom {
+    /* Seulement horizontal + léger balancement : plus de composante
+       verticale, pour ne plus du tout sentir la carte "monter depuis
+       le bas" — uniquement l'impression qu'elle vient de la droite.
+       Mouvement encore plus lent (2.2s). */
+    opacity: 0 !important;
+    transform: translateX(120px) rotate(9deg) !important;
+    transition: opacity 2.2s cubic-bezier(0.22, 1, 0.36, 1), transform 2.2s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  .service-card.reveal-zoom.is-visible {
+    opacity: 1 !important;
+    transform: translateX(0) rotate(0deg) !important;
   }
 
   .service-img {
@@ -2188,6 +2252,11 @@ footer {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Assombrit directement la photo (au lieu d'un voile posé par-dessus) :
+       couvre donc TOUJOURS 100% de l'image, sans risque de mauvais
+       positionnement. Ajustable : plus le chiffre est petit, plus c'est
+       sombre (0.55 = photo à 55% de sa luminosité normale). */
+    filter: brightness(0.45) saturate(0.9);
   }
 
   /* La 2e image (utilisée pour la bascule au toucher) est cachée par
@@ -2206,15 +2275,20 @@ footer {
   }
 
   .service-body {
+    background: none;
     position: relative;
-    z-index: 2;
+    z-index: 3;
     min-height: 230px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     padding: 20px 18px 22px;
-    background: linear-gradient(180deg, rgba(6,6,6,0.5) 0%, rgba(6,6,6,0.58) 45%, rgba(6,6,6,0.9) 100%);
   }
+
+  /* Le voile sombre séparé (::after) posait problème (mal positionné /
+     cachait l'image chez toi) : on l'a retiré. On assombrit maintenant
+     directement la photo elle-même (voir règle .service-img img plus bas),
+     ce qui est plus simple et toujours fiable, sans couche en plus. */
 
   .service-card h3,
   .service-card .service-link {
@@ -2294,6 +2368,151 @@ footer {
     50% {
       transform: translateX(6px);
     }
+  }
+
+  /* "Réalisations" : léger mouvement de flottement continu sur les
+     cartes du carrousel, en plus de l'ombre large — renforce la
+     sensation qu'elles "survolent" le fond, chacune légèrement
+     décalée dans le temps pour un effet plus naturel. */
+  .work-card {
+    animation: work-card-float 4.5s ease-in-out infinite;
+  }
+
+  .work-card:nth-child(2n) {
+    animation-delay: 0.7s;
+  }
+
+  .work-card:nth-child(3n) {
+    animation-delay: 1.4s;
+  }
+
+  .work-card:nth-child(4n) {
+    animation-delay: 2.1s;
+  }
+
+  @keyframes work-card-float {
+    0%, 100% {
+      transform: translateY(0);
+      box-shadow: 0 22px 46px rgba(20, 20, 20, 0.24), 0 8px 18px rgba(20, 20, 20, 0.14);
+    }
+    50% {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 58px rgba(20, 20, 20, 0.20), 0 12px 22px rgba(20, 20, 20, 0.10);
+    }
+  }
+
+  /* ============================================================
+     "Pourquoi nous choisir" — présentation mobile différente du PC :
+     une ligne verticale, et chaque point (Expertise/Sécurité/Délais)
+     en sort au fil du scroll, comme une branche qui se déplie. Photo
+     réduite dans le coin en haut à droite. Fond noir + grille en
+     pointillés d'origine conservés tels quels.
+     ============================================================ */
+  .why-grid {
+    display: block;
+    position: relative;
+    padding-top: 4px;
+  }
+
+  .why-grid > div:nth-child(2) {
+    padding-right: 108px; /* laisse la place à la petite photo à droite */
+  }
+
+  .why-image.reveal-spin {
+    position: absolute;
+    top: 170px;
+    right: 0;
+    width: 92px;
+    height: 92px;
+    margin: 0;
+    border-radius: 12px;
+    will-change: transform;
+    /* Toujours visible, sans animation d'entrée en rotation (celle-ci
+       entrerait en conflit avec le mouvement de scroll géré en JS
+       ci-dessous, les deux touchant "transform"). Le JS contrôle 100%
+       du transform pour le mouvement parallax. */
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .why-image.reveal-spin img {
+    height: 100%;
+    width: 100%;
+  }
+
+  /* Sur téléphone : la grande photo PC est cachée, le logo la remplace
+     dans le petit cadre. Le logo a probablement un fond clair/blanc,
+     donc on l'affiche en "contain" (pas rogné) avec un fond blanc et
+     un peu de marge intérieure, plutôt qu'en "cover" comme la photo. */
+  .why-image-desktop {
+    display: none;
+  }
+
+  .why-image-mobile {
+    display: block;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    background: var(--white);
+    padding: 10px;
+  }
+
+  .why-grid .section-title {
+    font-size: 24px;
+  }
+
+  .why-list {
+    position: relative;
+    margin-top: 26px;
+    padding-left: 4px;
+  }
+
+  /* La ligne verticale, alignée sur le centre des icônes rondes
+     (44px de large, donc centre à 22px du bord gauche de .why-list) */
+  .why-list::before {
+    content: '';
+    position: absolute;
+    left: 21px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--orange) 0%, rgba(248, 125, 2, 0.15) 100%);
+  }
+
+  /* La ligne d'un point (icône + texte) reste en place, immobile :
+     c'est le texte qui bouge (voir plus bas), pas toute la rangée */
+  .why-item {
+    opacity: 1;
+    transform: none;
+    align-items: flex-start;
+  }
+
+  /* Le rond ✓ reste posé sur la ligne (fond noir plein pour bien la
+     recouvrir visuellement à cet endroit) et rebondit à l'apparition */
+  .why-item .icon {
+    background: var(--black);
+    position: relative;
+    z-index: 2;
+    transform: scale(0.3) rotate(-160deg);
+    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .why-item.is-visible .icon {
+    transform: scale(1) rotate(0deg);
+  }
+
+  /* Le texte "sort" de la ligne : léger glissement local depuis la
+     ligne elle-même, pas un grand glissement depuis le bord de l'écran */
+  .why-item > div:last-child {
+    opacity: 0;
+    transform: translateX(-22px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .why-item.is-visible > div:last-child {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 

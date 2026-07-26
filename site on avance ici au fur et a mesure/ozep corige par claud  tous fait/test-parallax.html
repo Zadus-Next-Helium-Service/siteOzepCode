@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test parallax photo</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: sans-serif;
+    background: #141414;
+    color: #fff;
+    padding: 30px 20px 100px;
+  }
+  h1 { font-size: 20px; margin-bottom: 10px; }
+  p.info { color: #aaa; margin-bottom: 40px; font-size: 14px; }
+  .spacer {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
+    border: 2px dashed #333;
+    margin-bottom: 20px;
+  }
+  .section {
+    position: relative;
+    height: 70vh;
+    background: #1e1e1e;
+    border-radius: 12px;
+  }
+  .photo-frame {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #333;
+  }
+  .photo-frame img {
+    height: 160%;
+    width: 100%;
+    position: absolute;
+    top: -30%;
+    left: 0;
+    object-fit: cover;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  .live-value {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    font-size: 13px;
+    color: #f87d02;
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Test : photo qui bouge au scroll</h1>
+  <p class="info">Scrolle lentement. La photo (coin haut droit du cadre gris) doit monter/descendre légèrement, et le chiffre en bas à gauche doit changer en continu.</p>
+
+  <div class="spacer">↓ scrolle ↓</div>
+
+  <div class="section">
+    <div class="photo-frame">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=300" alt="test">
+    </div>
+    <div class="live-value" id="liveValue">valeur : 0</div>
+  </div>
+
+  <p class="info" style="margin-top:60px;">Fin du test.</p>
+
+<script>
+  const img = document.querySelector('.photo-frame img');
+  const section = document.querySelector('.section');
+  const liveValue = document.getElementById('liveValue');
+  let ticking = false;
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight;
+    let progress = (vh - rect.top) / (vh + rect.height);
+    progress = Math.max(0, Math.min(1, progress));
+    const offset = (progress - 0.5) * 60;
+    img.style.transform = 'translateY(' + offset.toFixed(1) + 'px) translateZ(0)';
+    liveValue.textContent = 'valeur : ' + offset.toFixed(1) + 'px';
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  update();
+</script>
+
+</body>
+</html>
