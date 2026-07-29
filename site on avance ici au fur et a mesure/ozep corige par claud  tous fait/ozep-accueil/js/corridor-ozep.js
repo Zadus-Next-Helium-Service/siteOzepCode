@@ -886,9 +886,18 @@
     stage.addEventListener('touchstart', e => { if (e.touches.length === 1) touchStartY = e.touches[0].clientY; }, { passive: true });
     stage.addEventListener('touchmove', e => {
       if (touchStartY === null || e.touches.length !== 1) return;
-      targetScroll += (touchStartY - e.touches[0].clientY) * TOUCH_SENSITIVITY;
+      // Sur téléphone, on ne capte le geste pour la galerie 3D QUE si
+      // l'utilisateur a explicitement choisi le mode "Explorer la
+      // galerie" (bouton flottant ajouté sur la page). Par défaut, le
+      // doigt fait défiler la page normalement, comme n'importe quelle
+      // autre section — corrige le bug où la page et la scène 3D
+      // bougeaient toutes les deux en même temps.
+      if (window.__corridorGalleryMode) {
+        e.preventDefault();
+        targetScroll += (touchStartY - e.touches[0].clientY) * TOUCH_SENSITIVITY;
+      }
       touchStartY = e.touches[0].clientY;
-    }, { passive: true });
+    }, { passive: false });
     stage.addEventListener('touchend', () => { touchStartY = null; });
 
     stage.addEventListener('mousemove', (e) => {

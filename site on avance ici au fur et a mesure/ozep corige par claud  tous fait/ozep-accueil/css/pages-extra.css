@@ -522,6 +522,40 @@
 }
 
 /* ============================================================
+   TÉLÉPHONE (≤600px) — tailles affinées + entrée de l'image (elle
+   n'en avait pas), avec la même méthode fiable que le reste du site.
+   ============================================================ */
+@media (max-width: 600px) {
+  .realisations-presentation {
+    padding: 50px 0;
+  }
+
+  .realisations-image img {
+    height: 230px;
+  }
+
+  .realisations-text .section-title {
+    font-size: 25px;
+  }
+
+  .realisations-text p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .realisations-image {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .realisations-image.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
    RÉALISATIONS — image à gauche, texte à droite (animations vivantes)
    ============================================================ */
 

@@ -75,6 +75,13 @@ ul {
   background: repeating-linear-gradient(135deg, var(--orange) 0 18px, var(--black) 18px 36px);
 }
 
+/* Texte d'intro de la page "réalisations", ajouté avant le hero
+   UNIQUEMENT sur téléphone (voir @media max-width:600px pour son
+   style) : caché par défaut sur PC/tablette. */
+.realisations-mobile-intro {
+  display: none;
+}
+
 /* ============================================================
    1. HEADER
    ============================================================ */
@@ -1725,13 +1732,13 @@ footer {
     font-size: 15px;
   }
 
-  .hero-actions {
+  .hero .hero-actions {
     flex-direction: column;
     gap: 12px;
     width: 100%;
   }
 
-  .hero-actions .btn {
+  .hero .hero-actions .btn {
     width: 100%;
     text-align: center;
   }
@@ -1878,6 +1885,42 @@ footer {
     animation: hero-kenburns-a 15s ease-in-out infinite alternate;
   }
 
+  /* Autres pages (réalisations, à propos, contact...) dont le hero
+     utilise une simple <img> directe dans .slide-bg (pas de vidéo à
+     basculer, donc pas besoin de la classe .slide-image) : même effet
+     "Ken Burns" pour que l'image soit vivante là aussi. Exclut #accueil,
+     qui gère déjà son propre mouvement ci-dessus. */
+  .hero:not(#accueil) .slide-bg img {
+    transform: scale(1.02);
+    animation: hero-kenburns-a 15s ease-in-out infinite alternate;
+  }
+
+  /* Texte d'intro juste après le hero de "réalisations" (mobile
+     uniquement, le PC n'affiche pas ce bloc) */
+  .realisations-mobile-intro {
+    display: block;
+    background: var(--white);
+    color: var(--black);
+    padding: 32px 20px;
+  }
+
+  .realisations-mobile-intro h2 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .realisations-mobile-intro p {
+    font-size: 15px;
+    color: #3d3d3d;
+    margin-bottom: 14px;
+  }
+
+  .realisations-mobile-intro p:last-child {
+    margin-bottom: 0;
+  }
+
   .slide:nth-child(2n).active .slide-image {
     animation-name: hero-kenburns-b;
     animation-duration: 17s;
@@ -1960,15 +2003,17 @@ footer {
     z-index: 5 !important;
   }
 
-  /* Hero : redevient un bloc normal qui défile avec la page,
-     taille raisonnable (pas plus grand que le reste de la page) */
+  /* Hero : taille par défaut (apropos/contact/réalisations). La page
+     d'accueil a son propre réglage plus bas (#accueil), plus grand.
+     Hauteur FIXE en pixels (pas en vh) : plus fiable et cohérente
+     entre téléphones que le pourcentage d'écran, comme sur services. */
   .hero {
     position: relative;
     inset: auto;
     margin-top: 100px;
-    height: 46vh;
-    min-height: 320px;
-    max-height: 440px;
+    height: 400px;
+    min-height: 400px;
+    max-height: 400px;
   }
 
   .hero-scene,
@@ -1991,35 +2036,77 @@ footer {
     transform: translateX(0) !important;
   }
 
-  /* On garde uniquement le titre en gras, on masque le petit texte fin */
+  /* On garde uniquement le titre en gras par défaut, on masque le
+     petit texte fin (la page d'accueil le remet, voir #accueil) */
   .slide-content p {
     display: none;
   }
 
-  /* Boutons du hero : style "lien" discret (texte + »), comme Snyder,
-     au lieu des gros boutons pleins utilisés sur PC/tablette */
-  .hero-actions {
+  /* Boutons du hero : style "lien" discret (texte + »), comme Snyder.
+     Scopé à ".hero" précisément : la section CTA plus bas ("Un projet
+     en tête ?") réutilise la même classe .hero-actions juste pour sa
+     mise en page, et se retrouvait avec ces boutons orange sans fond
+     par erreur — invisibles sur son propre fond orange.
+     Un soulignement fin est ajouté pour bien sentir que c'est cliquable. */
+  .hero .hero-actions {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
     margin-top: 6px;
   }
 
-  .hero-actions .btn {
+  .hero .hero-actions .btn {
     background: none !important;
     border: none !important;
     box-shadow: none !important;
     padding: 0 !important;
     color: var(--orange) !important;
     font-size: 14.5px;
+    border-bottom: 1px solid rgba(248, 125, 2, 0.55) !important;
+    padding-bottom: 2px !important;
   }
 
-  .hero-actions .btn::before {
+  .hero .hero-actions .btn::before {
     display: none;
   }
 
-  .hero-actions .btn::after {
+  .hero .hero-actions .btn::after {
     content: " »";
+  }
+
+  /* ============================================================
+     Réglages UNIQUEMENT pour le hero de la page d'accueil (#accueil) :
+     plus grand, plus sombre, texte descriptif visible. Les autres
+     pages gardent le modèle d'origine ci-dessus (46vh, etc.), grâce
+     au sélecteur #accueil qui est toujours prioritaire.
+     ============================================================ */
+  .hero#accueil {
+    margin-top: 0;
+    height: 92vh;
+    min-height: 640px;
+    max-height: 900px;
+  }
+
+  /* Assombrit nettement plus le bas de l'image, pour que la bande
+     orange/noir ("zone de chantier") juste sous le hero morde bien
+     sur une zone déjà très sombre — plus de rupture nette vers du
+     blanc. Le haut reste un peu plus clair pour distinguer la photo. */
+  #accueil .slide-bg::after {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0,0,0,0.30) 40%, rgba(0, 0, 0, 0.067) 70%, rgba(0, 0, 0, 0.16) 100%);
+  }
+
+  /* Photo légèrement assombrie elle-même (en plus du dégradé
+     ci-dessus), pour un rendu plus sombre et dramatique dans
+     l'ensemble — c'est ici qu'ajuster si tu veux encore plus/moins
+     sombre (0.72 = 72% de la luminosité normale). */
+  #accueil .slide-image {
+    filter: brightness(1) contrast(1.08) saturate(1.05);
+  }
+
+  #accueil .slide-content p {
+    display: block;
+    font-size: 15.5px;
+    margin-bottom: 22px;
   }
 
   .hero-nav {
@@ -2399,6 +2486,87 @@ footer {
       transform: translateY(-8px);
       box-shadow: 0 30px 58px rgba(20, 20, 20, 0.20), 0 12px 22px rgba(20, 20, 20, 0.10);
     }
+  }
+
+  /* ============================================================
+     FOOTER — présentation mobile "futuriste" mais discrète : une
+     ligne lumineuse fine qui balaie le haut du footer en continu
+     (seule vraie animation ici), et les 3 colonnes de liens en
+     accordéon (on touche le titre pour déplier/replier), plus
+     pratique qu'une longue liste empilée sur petit écran.
+     ============================================================ */
+  footer {
+    position: relative;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--orange) 50%, transparent 100%);
+    background-size: 220% 100%;
+    animation: footer-glow-sweep 7s linear infinite;
+  }
+
+  @keyframes footer-glow-sweep {
+    0% {
+      background-position: 220% 0;
+    }
+    100% {
+      background-position: -220% 0;
+    }
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-bottom: 10px;
+  }
+
+  .footer-grid > div:first-child {
+    margin-bottom: 30px;
+  }
+
+  .footer-col {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .footer-col h5 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+    padding: 16px 2px;
+    cursor: pointer;
+  }
+
+  /* Petit "+" qui devient "×" (rotation 45°) quand la colonne est ouverte */
+  .footer-col h5::after {
+    content: '+';
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--orange);
+    transition: transform 0.3s ease;
+  }
+
+  .footer-col.is-open h5::after {
+    transform: rotate(45deg);
+  }
+
+  .footer-col ul {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.3s ease;
+  }
+
+  .footer-col.is-open ul {
+    max-height: 320px;
+    opacity: 1;
+    padding-bottom: 16px;
   }
 
   /* ============================================================

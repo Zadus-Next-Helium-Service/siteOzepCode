@@ -118,3 +118,85 @@
   .corridor-caption { bottom: 20px; padding: 10px 16px; gap: 10px; }
   .corridor-title { font-size: 14px; max-width: 46vw; }
 }
+
+/* Bouton "Plein écran" flottant directement sur la zone 3D (au lieu
+   d'être dans le texte au-dessus) — même esprit que le bouton
+   "Retour" qui, lui, flotte déjà sur la vue en plein écran. */
+.btn-corridor-stage-fullscreen {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  z-index: 6;
+  font-family: var(--font-cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 26px;
+  border-radius: 4px;
+  border: 2px solid var(--orange);
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(4px);
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 14px;
+}
+
+.btn-corridor-stage-fullscreen:hover {
+  background: var(--orange);
+  color: var(--black);
+}
+
+/* Caché quand on est en plein écran (le bouton "Retour" flottant le
+   remplace déjà à ce moment-là) */
+.corridor-section.fullscreen .btn-corridor-stage-fullscreen {
+  display: none;
+}
+
+/* Sélecteur de mode "Parcourir le site" / "Explorer la galerie"
+   (téléphone) : position fixe, donc reste toujours au même endroit
+   à l'écran (il "suit" pendant qu'on scrolle) tant que la section
+   galerie est visible — voir js/script.js pour l'affichage/masquage
+   automatique selon qu'on est dans la section ou non. */
+.corridor-mode-toggle {
+  display: none;
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 200;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 30px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.corridor-mode-toggle.is-shown {
+  display: flex;
+}
+
+.corridor-mode-btn {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 9px 14px;
+  border-radius: 24px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.corridor-mode-btn.is-active {
+  background: var(--orange);
+  color: var(--black);
+}
+
+.corridor-section.fullscreen .corridor-mode-toggle {
+  display: none;
+}

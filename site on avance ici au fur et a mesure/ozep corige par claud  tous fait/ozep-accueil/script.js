@@ -562,49 +562,6 @@ if (window.matchMedia('(max-width: 600px)').matches) {
   }
 }
 
-// Galerie 3D (page réalisations) : bouton de choix "Parcourir le
-// site" / "Explorer la galerie", visible et fixe à l'écran tant que
-// la section de la galerie est visible.
-(function () {
-  const toggle = document.getElementById('corridorModeToggle');
-  const corridorSection = document.getElementById('corridorSection');
-  if (!toggle || !corridorSection) return;
-
-  window.__corridorGalleryMode = false;
-
-  const buttons = toggle.querySelectorAll('.corridor-mode-btn');
-  buttons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      const isGallery = btn.dataset.mode === 'gallery';
-      window.__corridorGalleryMode = isGallery;
-      buttons.forEach(function (b) { b.classList.remove('is-active'); });
-      btn.classList.add('is-active');
-    });
-  });
-
-  // Uniquement utile sur téléphone (sur PC, la molette gère déjà ça
-  // correctement sans ce bouton, voir js/corridor-ozep.js).
-  if (!window.matchMedia('(max-width: 600px)').matches) return;
-
-  let tickingCorridorToggle = false;
-
-  function updateCorridorToggleVisibility() {
-    const rect = corridorSection.getBoundingClientRect();
-    const inView = rect.top < window.innerHeight && rect.bottom > 0;
-    toggle.classList.toggle('is-shown', inView);
-    tickingCorridorToggle = false;
-  }
-
-  window.addEventListener('scroll', function () {
-    if (!tickingCorridorToggle) {
-      window.requestAnimationFrame(updateCorridorToggleVisibility);
-      tickingCorridorToggle = true;
-    }
-  }, { passive: true });
-
-  updateCorridorToggleVisibility();
-})();
-
 // Sur mobile, le centre-écran ci-dessus gère déjà .is-visible : on évite
 // que cet observer (moins précis) vienne aussi y toucher et créer un
 // conflit entre les deux mécanismes.

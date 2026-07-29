@@ -63,28 +63,36 @@
   </div>
 </section>
 
+
 <!-- ===== CONTENU DÉFILANT ===== -->
 <div class="page-content">
 
   <!-- === BANDE RAYÉE === -->
   <div class="stripe"></div>
 
-  <!-- ===== SECTION RÉALISATIONS — image à gauche / texte à droite ===== -->
-  <section class="realisations-presentation" id="projets">
-    <div class="wrap">
-      <div class="realisations-row">
-        <div class="realisations-image reveal-left">
-          <img src="assets/ozep-photo.jpg" alt="Chantier OZEP">
-        </div>
-        <div class="realisations-text reveal-right">
-          <div class="eyebrow-label">Nos réalisations</div>
-          <h2 class="section-title">Chaque projet, une promesse tenue.</h2>
+
+  <div class="realisations-row">
+    <div class="realisations-text reveal-right">
+      <div class="eyebrow-label">Nos réalisations</div>
+        <h2 class="section-title">Chaque projet, une promesse tenue.</h2>
           <p>
             Chaque réalisation est le reflet de notre engagement à transformer les idées en solutions concrètes et durables. Qu'il s'agisse d'ingénierie, de construction ou de projets liés aux mines et au forage, nous mettons en avant la rigueur technique et l'innovation qui nous caractérisent.
           </p>
           <p>
             Nous croyons que chaque projet est une opportunité de bâtir la confiance, de renforcer les compétences locales et de contribuer au développement durable. Les réalisations présentées ici illustrent notre savoir-faire et notre volonté d'aller toujours plus loin, en plaçant la qualité et la satisfaction de nos partenaires au cœur de notre démarche.
-          </p>
+          </p>    
+  </div>
+
+
+
+
+  <!-- ===== SECTION RÉALISATIONS — image à gauche / texte à droite ===== -->
+  <section class="realisations-presentation" id="projets">
+    <div class="wrap">
+      
+
+        <div class="realisations-image reveal-left">
+          <img src="assets/ozep-photo.jpg" alt="Chantier OZEP">
         </div>
       </div>
     </div>
@@ -98,14 +106,12 @@
       <p style="font-family:var(--font-cond); color:rgba(255,255,255,0.7); font-size:17px; max-width:560px; margin-top:10px;">
         Faites défiler pour traverser nos chantiers — mines, BTP et hydraulique — comme si vous y étiez.
       </p>
-      <div class="corridor-controls">
-        <button class="btn-corridor" id="corridorFullscreenBtn">Plein écran</button>
-        <button class="btn-corridor btn-corridor-return" id="corridorReturnBtn" style="display:none;">Retour</button>
-      </div>
     </div>
 
     <div class="corridor-stage-wrap">
       <div id="corridor-3d-stage"></div>
+      <button class="btn-corridor-stage-fullscreen" id="corridorFullscreenBtn">Plein écran</button>
+      <button id="corridorReturnBtn" style="display:none;">Retour</button>
       <div class="corridor-scroll-hint" id="corridor-scroll-hint">
         <span>Faites défiler</span>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -120,6 +126,14 @@
 
     <!-- BOUTON RETOUR FLOTTANT -->
     <button class="btn-corridor-return-fullscreen" id="corridorReturnFullscreenBtn" style="display:none;">✕ Retour</button>
+
+    <!-- Choix du mode de scroll (téléphone) : reste visible et suit
+         l'écran tant qu'on est dans cette section, disparaît dès
+         qu'on la quitte (voir js/script.js) -->
+    <div class="corridor-mode-toggle" id="corridorModeToggle">
+      <button type="button" class="corridor-mode-btn is-active" data-mode="site">Parcourir le site</button>
+      <button type="button" class="corridor-mode-btn" data-mode="gallery">Explorer la galerie</button>
+    </div>
   </section>
 
   <!-- ===== CTA ===== -->

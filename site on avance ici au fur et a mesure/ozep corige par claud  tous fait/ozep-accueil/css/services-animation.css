@@ -199,3 +199,152 @@ section.services[data-zone="overview"]{
   /* Sur mobile, on masque l'animation (trop petit écran) */
   #canvas3dWrap{ display:none; }
 }
+
+/* ============================================================
+   TÉLÉPHONE (≤600px) — l'animation 3D est réactivée, mais réduite
+   et posée en petit décor dans le coin bas-droit au lieu de prendre
+   tout l'écran. On utilise un "transform:scale" plutôt que de
+   changer la largeur/hauteur : le script 3D remet lui-même le canevas
+   à la taille de la fenêtre à chaque redimensionnement, donc changer
+   width/height serait immédiatement écrasé — un scale visuel évite
+   ce conflit.
+   Note : le rendu 3D reste calculé en pleine résolution en interne
+   (juste affiché en plus petit), donc ça reste un peu gourmand en
+   calcul — à surveiller si le défilement devient saccadé.
+   ============================================================ */
+@media (max-width: 600px) {
+  #canvas3dWrap {
+    display: block !important;
+    transform: scale(0.34);
+    transform-origin: bottom right;
+    opacity: 0.92;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* Le script JS ajoute automatiquement "canvas-hidden" (opacity:0) dès
+     que l'écran fait moins de 900px de large — ce qui masquerait tout
+     le temps notre petite version réduite. On force donc la visibilité
+     ici, sur téléphone spécifiquement. */
+  #canvas3dWrap.canvas-hidden {
+    opacity: 0.92 !important;
+  }
+}
+
+/* ============================================================
+   TÉLÉPHONE (≤600px) — Blocs "expertise détaillée" (Génie civil,
+   Mines, Géotechnique, Hydraulique) : tailles adaptées + entrée
+   fiable au scroll (même méthode que "Nos domaines d'activité" et
+   "Pourquoi nous choisir", pas le mécanisme générique qui posait
+   problème sur certains téléphones) + léger effet "vivant" sur
+   les photos une fois affichées.
+   ============================================================ */
+@media (max-width: 600px) {
+  .expertise-block {
+    padding: 46px 0;
+  }
+
+  .expertise-text .service-num {
+    font-size: 14px;
+  }
+
+  .expertise-text h3 {
+    font-size: 23px;
+    margin-bottom: 12px;
+  }
+
+  .expertise-text p {
+    font-size: 15px;
+    max-width: 100%;
+  }
+
+  .expertise-image {
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  .expertise-image img {
+    height: 220px;
+    border-radius: 10px;
+  }
+
+  .expertise-text {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .expertise-image {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .expertise-text.is-visible,
+  .expertise-image.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Léger mouvement continu sur la photo une fois affichée : zoom +
+     léger déplacement de caméra (façon "Ken Burns"), pour plus de vie
+     qu'un simple zoom répétitif */
+  .expertise-image.is-visible img {
+    animation: expertise-img-breathe 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes expertise-img-breathe {
+    0% {
+      transform: scale(1) translate(0%, 0%);
+    }
+    50% {
+      transform: scale(1.1) translate(-2%, -1.5%);
+    }
+    100% {
+      transform: scale(1.06) translate(1.5%, 1%);
+    }
+  }
+}
+
+/* ============================================================
+   TÉLÉPHONE (≤600px) — on reprend un contrôle total et simple du
+   positionnement (comme sur l'accueil), sans dépendre du flexbox
+   "align-items:flex-end" qui se comportait de façon imprévisible
+   sur certains téléphones (texte qui débordait/chevauchait la photo).
+   Hauteur fixe + texte collé en bas via position:absolute = résultat
+   garanti, quel que soit l'appareil.
+   ============================================================ */
+@media (max-width: 600px) {
+  .services-hero {
+    display: block;
+    height: 400px;
+    min-height: 400px;
+    max-height: 400px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .services-hero-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 20px 24px;
+  }
+
+  .services-hero-content h1 {
+    font-size: clamp(22px, 7vw, 28px);
+    margin-bottom: 10px;
+  }
+
+  /* Masqué sur ce petit format (comme sur l'accueil) : avec le titre
+     + les 2 boutons, il n'y a pas la place pour ce texte en plus sans
+     que ça déborde. */
+  .services-hero-content p {
+    display: none;
+  }
+
+  .services-hero .hero-actions {
+    gap: 8px;
+  }
+}

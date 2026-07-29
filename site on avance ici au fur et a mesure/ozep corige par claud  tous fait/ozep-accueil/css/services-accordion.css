@@ -185,6 +185,30 @@
 }
 
 /* ============================================================
+   TÉLÉPHONE (≤600px) — apparition en rotation 3D façon "carte à
+   jouer qui se retourne" pour chaque bande, l'une après l'autre en
+   scrollant. Classe séparée (.is-revealed) pour ne pas interférer
+   avec .is-active (qui gère l'ouverture/fermeture au toucher).
+   ============================================================ */
+@media (max-width: 600px) {
+  .services-accordion {
+    perspective: 800px;
+  }
+
+  .acc-item {
+    opacity: 0;
+    transform: rotateY(90deg);
+    transition: height .55s ease, opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    backface-visibility: hidden;
+  }
+
+  .acc-item.is-revealed {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+
+/* ============================================================
    BLOCS D'EXPERTISE DÉTAILLÉE (01—BTP, 02—Mines, 03—Géotechnique,
    04—Hydraulique) : texte centré, fond qui colle au contenu au
    lieu de laisser un grand espace vide, numéro de service agrandi.
