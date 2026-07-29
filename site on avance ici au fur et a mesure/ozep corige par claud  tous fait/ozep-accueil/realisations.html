@@ -71,28 +71,22 @@
   <div class="stripe"></div>
 
 
-  <div class="realisations-row">
-    <div class="realisations-text reveal-right">
-      <div class="eyebrow-label">Nos réalisations</div>
-        <h2 class="section-title">Chaque projet, une promesse tenue.</h2>
+  <!-- ===== SECTION RÉALISATIONS — image à gauche / texte à droite ===== -->
+  <section class="realisations-presentation" id="projets">
+    <div class="wrap">
+      <div class="realisations-row">
+        <div class="realisations-image reveal-left">
+          <img src="assets/ozep-photo.jpg" alt="Chantier OZEP">
+        </div>
+        <div class="realisations-text reveal-right">
+          <div class="eyebrow-label">Nos réalisations</div>
+          <h2 class="section-title">Chaque projet, une promesse tenue.</h2>
           <p>
             Chaque réalisation est le reflet de notre engagement à transformer les idées en solutions concrètes et durables. Qu'il s'agisse d'ingénierie, de construction ou de projets liés aux mines et au forage, nous mettons en avant la rigueur technique et l'innovation qui nous caractérisent.
           </p>
           <p>
             Nous croyons que chaque projet est une opportunité de bâtir la confiance, de renforcer les compétences locales et de contribuer au développement durable. Les réalisations présentées ici illustrent notre savoir-faire et notre volonté d'aller toujours plus loin, en plaçant la qualité et la satisfaction de nos partenaires au cœur de notre démarche.
-          </p>    
-  </div>
-
-
-
-
-  <!-- ===== SECTION RÉALISATIONS — image à gauche / texte à droite ===== -->
-  <section class="realisations-presentation" id="projets">
-    <div class="wrap">
-      
-
-        <div class="realisations-image reveal-left">
-          <img src="assets/ozep-photo.jpg" alt="Chantier OZEP">
+          </p>
         </div>
       </div>
     </div>
@@ -108,7 +102,7 @@
       </p>
     </div>
 
-    <div class="corridor-stage-wrap">
+    <div class="corridor-stage-wrap" id="corridorStageWrap">
       <div id="corridor-3d-stage"></div>
       <button class="btn-corridor-stage-fullscreen" id="corridorFullscreenBtn">Plein écran</button>
       <button id="corridorReturnBtn" style="display:none;">Retour</button>
@@ -124,16 +118,16 @@
       </div>
     </div>
 
-    <!-- BOUTON RETOUR FLOTTANT -->
-    <button class="btn-corridor-return-fullscreen" id="corridorReturnFullscreenBtn" style="display:none;">✕ Retour</button>
-
-    <!-- Choix du mode de scroll (téléphone) : reste visible et suit
-         l'écran tant qu'on est dans cette section, disparaît dès
-         qu'on la quitte (voir js/script.js) -->
+    <!-- Choix du mode de scroll (téléphone) : bouton flottant, fixe à
+         l'écran, visible tant que la galerie 3D (corridorStageWrap) est
+         visible à l'écran — voir js/script.js. -->
     <div class="corridor-mode-toggle" id="corridorModeToggle">
       <button type="button" class="corridor-mode-btn is-active" data-mode="site">Parcourir le site</button>
       <button type="button" class="corridor-mode-btn" data-mode="gallery">Explorer la galerie</button>
     </div>
+
+    <!-- BOUTON RETOUR FLOTTANT -->
+    <button class="btn-corridor-return-fullscreen" id="corridorReturnFullscreenBtn" style="display:none;">✕ Retour</button>
   </section>
 
   <!-- ===== CTA ===== -->

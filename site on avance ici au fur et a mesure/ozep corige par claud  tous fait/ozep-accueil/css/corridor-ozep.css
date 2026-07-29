@@ -119,6 +119,17 @@
   .corridor-title { font-size: 14px; max-width: 46vw; }
 }
 
+/* Sur téléphone/tablette, on autorise explicitement le navigateur à gérer
+   le défilement vertical natif sur la zone 3D (sinon certains navigateurs
+   bloquent le scroll dès que le doigt touche un <canvas>). Le JS reprend
+   la main uniquement quand l'utilisateur choisit "Explorer la galerie"
+   (voir js/corridor-ozep.js, qui appelle preventDefault dans ce cas). */
+@media (max-width: 900px) {
+  #corridor-3d-stage {
+    touch-action: pan-y;
+  }
+}
+
 /* Bouton "Plein écran" flottant directement sur la zone 3D (au lieu
    d'être dans le texte au-dessus) — même esprit que le bouton
    "Retour" qui, lui, flotte déjà sur la vue en plein écran. */
@@ -154,10 +165,9 @@
 }
 
 /* Sélecteur de mode "Parcourir le site" / "Explorer la galerie"
-   (téléphone) : position fixe, donc reste toujours au même endroit
-   à l'écran (il "suit" pendant qu'on scrolle) tant que la section
-   galerie est visible — voir js/script.js pour l'affichage/masquage
-   automatique selon qu'on est dans la section ou non. */
+   (téléphone uniquement) : position fixe à l'écran (ne bouge jamais
+   pendant qu'il est affiché), visible tant que la galerie 3D est à
+   l'écran — voir js/script.js pour l'affichage/masquage précis. */
 .corridor-mode-toggle {
   display: none;
   position: fixed;
@@ -171,6 +181,7 @@
   border-radius: 30px;
   padding: 4px;
   gap: 4px;
+  width: fit-content;
 }
 
 .corridor-mode-toggle.is-shown {

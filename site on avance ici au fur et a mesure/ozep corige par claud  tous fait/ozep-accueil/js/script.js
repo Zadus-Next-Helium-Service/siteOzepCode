@@ -531,44 +531,26 @@ if (window.matchMedia('(max-width: 600px)').matches) {
 }
 
 // Section "Chaque projet, une promesse tenue" (page réalisations) :
-// même calcul direct de scroll, plus fiable que le mécanisme générique.
+// sur téléphone, cette section suit directement le héros, donc elle
+// apparaît tout de suite (en même temps que l'animation du héros),
+// sans attendre que l'utilisateur scrolle. Le reste de la page garde
+// une apparition déclenchée par le scroll (mécanisme générique plus bas).
 if (window.matchMedia('(max-width: 600px)').matches) {
   const realisationsEls = document.querySelectorAll('.realisations-text, .realisations-image');
   if (realisationsEls.length) {
-    let tickingRealisations = false;
-
-    function updateRealisationsReveal() {
-      const triggerLine = window.innerHeight * 0.82;
-      realisationsEls.forEach(function (el) {
-        const rect = el.getBoundingClientRect();
-        const center = rect.top + rect.height / 2;
-        if (center <= triggerLine) {
-          el.classList.add('is-visible');
-        } else {
-          el.classList.remove('is-visible');
-        }
-      });
-      tickingRealisations = false;
-    }
-
-    window.addEventListener('scroll', function () {
-      if (!tickingRealisations) {
-        window.requestAnimationFrame(updateRealisationsReveal);
-        tickingRealisations = true;
-      }
-    }, { passive: true });
-
-    updateRealisationsReveal();
+    realisationsEls.forEach(function (el) {
+      el.classList.add('is-visible');
+    });
   }
 }
 
 // Galerie 3D (page réalisations) : bouton de choix "Parcourir le
 // site" / "Explorer la galerie", visible et fixe à l'écran tant que
-// la section de la galerie est visible.
+// la galerie 3D (#corridorStageWrap) est visible.
 (function () {
   const toggle = document.getElementById('corridorModeToggle');
-  const corridorSection = document.getElementById('corridorSection');
-  if (!toggle || !corridorSection) return;
+  const stageWrap = document.getElementById('corridorStageWrap');
+  if (!toggle || !stageWrap) return;
 
   window.__corridorGalleryMode = false;
 
@@ -579,6 +561,18 @@ if (window.matchMedia('(max-width: 600px)').matches) {
       window.__corridorGalleryMode = isGallery;
       buttons.forEach(function (b) { b.classList.remove('is-active'); });
       btn.classList.add('is-active');
+
+      // Si on choisit d'explorer la galerie et qu'elle n'est que
+      // partiellement visible (à moitié cachée en haut ou en bas), on
+      // cadre automatiquement l'écran dessus pour bien la voir en entier
+      // avant de commencer à l'explorer au doigt.
+      if (isGallery) {
+        const rect = stageWrap.getBoundingClientRect();
+        const fullyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+        if (!fullyVisible) {
+          stageWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
     });
   });
 
@@ -589,7 +583,11 @@ if (window.matchMedia('(max-width: 600px)').matches) {
   let tickingCorridorToggle = false;
 
   function updateCorridorToggleVisibility() {
-    const rect = corridorSection.getBoundingClientRect();
+    const rect = stageWrap.getBoundingClientRect();
+    // Reste affiché tant qu'une partie de la galerie est à l'écran,
+    // du moment où elle apparaît en bas jusqu'à ce qu'elle disparaisse
+    // en haut (on peut donc toujours atteindre le bouton, même en bas
+    // de la galerie).
     const inView = rect.top < window.innerHeight && rect.bottom > 0;
     toggle.classList.toggle('is-shown', inView);
     tickingCorridorToggle = false;

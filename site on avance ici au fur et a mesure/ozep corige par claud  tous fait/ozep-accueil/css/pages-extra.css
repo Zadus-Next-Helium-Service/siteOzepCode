@@ -508,7 +508,11 @@
     flex-direction: column;
     gap: 30px;
   }
+  .realisations-text {
+    order: 1;
+  }
   .realisations-image {
+    order: 2;
     flex: 0 0 auto;
     max-width: 100%;
     width: 100%;

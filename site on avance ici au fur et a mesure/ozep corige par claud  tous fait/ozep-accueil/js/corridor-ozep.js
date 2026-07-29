@@ -46,6 +46,27 @@
     return x - Math.floor(x);
   }
 
+  // Sur un écran large (ordinateur), le champ de vision d'origine (56°)
+  // suffit largement à montrer les images en entier. Sur un écran étroit
+  // en mode portrait (téléphone), ce même champ de vision devient trop
+  // étroit horizontalement et coupe les bords des images. Cette fonction
+  // élargit automatiquement le champ de vision UNIQUEMENT quand l'écran
+  // est plus haut que large (aspect < 1) — ce qui n'arrive jamais sur un
+  // écran d'ordinateur classique, donc l'affichage ordinateur ne change pas.
+  const BASE_FOV_DEG = 56;
+  const MIN_HORIZONTAL_FOV_DEG = 76;
+  function computeCorridorFov(aspect) {
+    if (aspect >= 1) return BASE_FOV_DEG;
+    const toRad = d => d * Math.PI / 180;
+    const toDeg = r => r * 180 / Math.PI;
+    const baseHalfV = toRad(BASE_FOV_DEG) / 2;
+    const baseHorizontalFov = toDeg(Math.atan(Math.tan(baseHalfV) * aspect)) * 2;
+    if (baseHorizontalFov >= MIN_HORIZONTAL_FOV_DEG) return BASE_FOV_DEG;
+    const targetHalfH = toRad(MIN_HORIZONTAL_FOV_DEG) / 2;
+    const neededHalfV = Math.atan(Math.tan(targetHalfH) / aspect);
+    return toDeg(neededHalfV) * 2;
+  }
+
   function tex(draw, w, h) {
     const c = document.createElement('canvas');
     c.width = w; c.height = h;
@@ -472,7 +493,7 @@
     scene.fog = new THREE.Fog(0x5a4a3a, FOG_NEAR, FOG_FAR);
 
     let size = getSize();
-    const camera = new THREE.PerspectiveCamera(56, size.w / size.h, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(computeCorridorFov(size.w / size.h), size.w / size.h, 0.1, 100);
     camera.position.set(0, 0.4, 6);
 
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
@@ -881,7 +902,15 @@
     decorGroup.add(dustParticles);
 
     let targetScroll = 0, currentScroll = 0;
-    stage.addEventListener('wheel', e => { e.preventDefault(); targetScroll += e.deltaY * SCROLL_SENSITIVITY; }, { passive: false });
+    stage.addEventListener('wheel', e => {
+      // Sur téléphone, en mode "Parcourir le site" (par défaut), on laisse
+      // un éventuel geste de type molette faire défiler la page normalement
+      // au lieu de le capter pour la galerie 3D.
+      const isMobileWidth = window.matchMedia('(max-width: 600px)').matches;
+      if (isMobileWidth && !window.__corridorGalleryMode) return;
+      e.preventDefault();
+      targetScroll += e.deltaY * SCROLL_SENSITIVITY;
+    }, { passive: false });
     let touchStartY = null;
     stage.addEventListener('touchstart', e => { if (e.touches.length === 1) touchStartY = e.touches[0].clientY; }, { passive: true });
     stage.addEventListener('touchmove', e => {
@@ -913,6 +942,7 @@
     window.addEventListener('resize', () => {
       size = getSize();
       camera.aspect = size.w / size.h;
+      camera.fov = computeCorridorFov(camera.aspect);
       camera.updateProjectionMatrix();
       renderer.setSize(size.w, size.h, false);
       composer.setSize(size.w, size.h);
