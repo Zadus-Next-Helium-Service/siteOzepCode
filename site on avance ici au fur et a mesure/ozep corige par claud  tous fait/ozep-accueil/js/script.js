@@ -576,29 +576,35 @@ if (window.matchMedia('(max-width: 600px)').matches) {
     });
   });
 
-  // Uniquement utile sur téléphone (sur PC, la molette gère déjà ça
-  // correctement sans ce bouton, voir js/corridor-ozep.js).
-  if (!window.matchMedia('(max-width: 600px)').matches) return;
+  // Actif sur téléphone ET sur ordinateur : sur demande explicite, le
+  // même bouton "Parcourir le site" / "Explorer la galerie" est aussi
+  // affiché sur PC désormais (auparavant réservé au téléphone, car la
+  // molette gérait déjà ça sans ce bouton — voir js/corridor-ozep.js
+  // pour le changement correspondant côté molette).
 
-  let tickingCorridorToggle = false;
-
+  // Vérification EN CONTINU (boucle requestAnimationFrame), au lieu de
+  // ne vérifier que sur l'événement 'scroll' : sur de vrais téléphones,
+  // pendant un scroll rapide "au lancer" (inertie du doigt), l'événement
+  // 'scroll' peut ne se déclencher qu'une seule fois, tout à la fin du
+  // geste — ce qui laissait le bouton affiché bien après avoir quitté
+  // la galerie (constaté jusque dans le footer). Ici, on revérifie la
+  // position à chaque image (environ 60 fois par seconde), tant que la
+  // page reste ouverte, sans dépendre de la fréquence des 'scroll'.
   function updateCorridorToggleVisibility() {
     const rect = stageWrap.getBoundingClientRect();
-    // Reste affiché tant qu'une partie de la galerie est à l'écran,
-    // du moment où elle apparaît en bas jusqu'à ce qu'elle disparaisse
-    // en haut (on peut donc toujours atteindre le bouton, même en bas
-    // de la galerie).
-    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    // La galerie a un fondu visuel en haut/bas (voir la propriété
+    // box-shadow sur .corridor-stage-wrap::after dans corridor-ozep.css)
+    // qui la fait disparaître doucement dans le fond AVANT que la boîte
+    // technique (invisible) qui la contient n'ait vraiment quitté
+    // l'écran. Sans cette marge, le bouton restait affiché un peu trop
+    // longtemps par rapport à ce que l'œil perçoit (jusque tard dans le
+    // footer). On retire donc une marge correspondant à ce fondu avant
+    // de considérer que la galerie a quitté l'écran.
+    const HIDE_MARGIN = 150;
+    const inView = rect.top < window.innerHeight && rect.bottom > HIDE_MARGIN;
     toggle.classList.toggle('is-shown', inView);
-    tickingCorridorToggle = false;
+    window.requestAnimationFrame(updateCorridorToggleVisibility);
   }
-
-  window.addEventListener('scroll', function () {
-    if (!tickingCorridorToggle) {
-      window.requestAnimationFrame(updateCorridorToggleVisibility);
-      tickingCorridorToggle = true;
-    }
-  }, { passive: true });
 
   updateCorridorToggleVisibility();
 })();
@@ -975,37 +981,16 @@ if (introSection && imgTerrain && imgBureau) {
 // Il est désormais géré par js/contact-futuristic.js, qui envoie
 // réellement le message et affiche l'animation de transmission.
 
-// Gestion du mode plein écran pour le couloir 3D
-(function() {
-  var section = document.getElementById('corridorSection');
-  var fsBtn = document.getElementById('corridorFullscreenBtn');
-  var returnBtn = document.getElementById('corridorReturnBtn');
-
-  if (!section || !fsBtn || !returnBtn) return;
-
-  function enterFullscreen() {
-    section.classList.add('fullscreen');
-    fsBtn.style.display = 'none';
-    returnBtn.style.display = 'inline-block';
-    window.dispatchEvent(new Event('resize'));
-  }
-
-  function exitFullscreen() {
-    section.classList.remove('fullscreen');
-    fsBtn.style.display = 'inline-block';
-    returnBtn.style.display = 'none';
-    window.dispatchEvent(new Event('resize'));
-  }
-
-  fsBtn.addEventListener('click', enterFullscreen);
-  returnBtn.addEventListener('click', exitFullscreen);
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && section.classList.contains('fullscreen')) {
-      exitFullscreen();
-    }
-  });
-})();
+// NOTE : la gestion du plein écran du couloir 3D (#corridorSection) a
+// été retirée d'ici. C'était un ancien brouillon, resté par erreur en
+// double avec celui de realisations.html (qui référence en plus le
+// mode "Parcourir le site" / "Explorer la galerie" et le bouton
+// #corridorReturnFullscreenBtn actuellement utilisés). Les deux
+// gestionnaires réagissaient tous les deux au même clic sur "Plein
+// écran", ce qui pouvait provoquer un affichage incohérent (vieux
+// bouton #corridorReturnBtn sans style, double événement resize).
+// La gestion complète se trouve désormais uniquement dans le script
+// inline en bas de realisations.html.
 
 /* ============================================================
    MENU MOBILE — ouverture/fermeture du burger

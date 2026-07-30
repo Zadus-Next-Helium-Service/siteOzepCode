@@ -107,7 +107,7 @@
       <button class="btn-corridor-stage-fullscreen" id="corridorFullscreenBtn">Plein écran</button>
       <button id="corridorReturnBtn" style="display:none;">Retour</button>
       <div class="corridor-scroll-hint" id="corridor-scroll-hint">
-        <span>Faites défiler</span>
+        <span>Appuyez sur Explorer la galerie</span>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 5v14M5 12l7 7 7-7"/>
         </svg>
@@ -215,9 +215,30 @@
     var fsBtn = document.getElementById('corridorFullscreenBtn');
     var returnBtn = document.getElementById('corridorReturnBtn');
     var returnFullscreenBtn = document.getElementById('corridorReturnFullscreenBtn');
+    var modeToggle = document.getElementById('corridorModeToggle');
+    var modeBtnSite = modeToggle ? modeToggle.querySelector('.corridor-mode-btn[data-mode="site"]') : null;
+    var modeBtnGallery = modeToggle ? modeToggle.querySelector('.corridor-mode-btn[data-mode="gallery"]') : null;
+
+    // Retient le mode actif ("Parcourir le site" ou "Explorer la
+    // galerie") juste avant d'entrer en plein écran, pour le restaurer
+    // exactement tel quel à la sortie du plein écran.
+    var modeBeforeFullscreen = false;
 
     if (section && fsBtn && returnBtn && returnFullscreenBtn) {
       function enterFullscreen() {
+        // On force le mode "Explorer la galerie" en entrant en plein
+        // écran, quel que soit le mode choisi avant : sinon, si
+        // l'utilisateur clique sur "Plein écran" sans être passé par
+        // "Explorer la galerie", le doigt ne contrôle plus rien du tout
+        // (ni la page, cachée en plein écran, ni la caméra 3D, puisque
+        // window.__corridorGalleryMode restait à false).
+        modeBeforeFullscreen = !!window.__corridorGalleryMode;
+        window.__corridorGalleryMode = true;
+        if (modeBtnSite && modeBtnGallery) {
+          modeBtnSite.classList.remove('is-active');
+          modeBtnGallery.classList.add('is-active');
+        }
+
         section.classList.add('fullscreen');
         document.body.classList.add('fullscreen-active');
         fsBtn.style.display = 'none';
@@ -228,6 +249,15 @@
       }
 
       function exitFullscreen() {
+        // On restaure le mode qui était actif avant l'entrée en plein
+        // écran (site ou galerie), pour que le doigt continue à faire
+        // exactement ce qu'il faisait avant d'y entrer.
+        window.__corridorGalleryMode = modeBeforeFullscreen;
+        if (modeBtnSite && modeBtnGallery) {
+          modeBtnSite.classList.toggle('is-active', !modeBeforeFullscreen);
+          modeBtnGallery.classList.toggle('is-active', modeBeforeFullscreen);
+        }
+
         section.classList.remove('fullscreen');
         document.body.classList.remove('fullscreen-active');
         fsBtn.style.display = 'inline-block';

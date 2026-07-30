@@ -903,11 +903,12 @@
 
     let targetScroll = 0, currentScroll = 0;
     stage.addEventListener('wheel', e => {
-      // Sur téléphone, en mode "Parcourir le site" (par défaut), on laisse
-      // un éventuel geste de type molette faire défiler la page normalement
-      // au lieu de le capter pour la galerie 3D.
-      const isMobileWidth = window.matchMedia('(max-width: 600px)').matches;
-      if (isMobileWidth && !window.__corridorGalleryMode) return;
+      // En mode "Parcourir le site" (par défaut, sur téléphone comme sur
+      // PC), on laisse la molette/le geste faire défiler la page
+      // normalement au lieu de le capter pour la galerie 3D. Il faut
+      // choisir "Explorer la galerie" pour que la molette prenne le
+      // contrôle de la caméra 3D.
+      if (!window.__corridorGalleryMode) return;
       e.preventDefault();
       targetScroll += e.deltaY * SCROLL_SENSITIVITY;
     }, { passive: false });
