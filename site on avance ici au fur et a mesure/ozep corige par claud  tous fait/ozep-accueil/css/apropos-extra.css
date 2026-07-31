@@ -139,7 +139,8 @@
   transition: opacity .7s ease, transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease;
 }
 
-.goal-card:hover {
+.goal-card:hover,
+.goal-card.is-tapped {
   transform: translateY(-8px);
   box-shadow: 0 22px 42px rgba(20, 20, 20, 0.14);
 }
@@ -154,8 +155,33 @@
   transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
 }
 
-.goal-card:hover .goal-icon {
+.goal-card:hover .goal-icon,
+.goal-card.is-tapped .goal-icon {
   transform: scale(1.15) rotate(-6deg);
+}
+
+/* ------------------------------------------------------------
+   TÉLÉPHONE UNIQUEMENT — rendre la section "Nos valeurs" vivante
+   même sans souris : les icônes flottent doucement en continu une
+   fois affichées, et un appui du doigt sur une carte déclenche le
+   même effet que le survol sur PC (via la classe .is-tapped
+   ajoutée par js/script.js).
+   ------------------------------------------------------------ */
+@media (max-width: 600px) {
+  .goal-card.is-visible .goal-icon {
+    animation: goalIconFloat 2.6s ease-in-out infinite;
+  }
+
+  @keyframes goalIconFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
+  }
+
+  /* Pendant l'appui (.is-tapped), on coupe le flottement pour ne
+     pas qu'il se batte avec l'effet scale/rotate du survol simulé */
+  .goal-card.is-tapped .goal-icon {
+    animation: none;
+  }
 }
 
 /* Citation du dirigeant : guillemet qui "atterrit" après le texte */

@@ -296,8 +296,11 @@ if (introImage) {
   }, { passive: true });
 }
 
-const staggerText = document.querySelector('.stagger-reveal');
-if (staggerText) {
+// NOTE : querySelectorAll (et non querySelector) — pour permettre
+// plusieurs blocs en cascade sur la même page (ex: le texte d'intro ET
+// le footer), chacun observé et animé indépendamment.
+const staggerTexts = document.querySelectorAll('.stagger-reveal');
+staggerTexts.forEach(function (staggerText) {
   const staggerObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -309,7 +312,7 @@ if (staggerText) {
   }, { threshold: 0.2 });
 
   staggerObserver.observe(staggerText);
-}
+});
 
 const cards = document.querySelectorAll('.service-card');
 
@@ -1072,3 +1075,24 @@ if (window.matchMedia('(max-width: 600px)').matches) {
 // scroll) retiré : il ne se déclenchait pas de façon fiable sur tous
 // les téléphones/navigateurs testés.
 // ============================================================
+
+// ============================================================
+// Cartes "Nos valeurs" (apropos.html) : sur téléphone, il n'y a pas
+// de souris, donc l'effet ":hover" (carte qui se soulève, icône qui
+// tourne — voir css/apropos-extra.css) ne se déclenche jamais tout
+// seul. On ajoute donc la classe .is-tapped au doigt, qui déclenche
+// exactement le même effet visuel que le survol sur PC.
+// ============================================================
+if (window.matchMedia('(max-width: 600px)').matches) {
+  document.querySelectorAll('.goal-card').forEach(function (card) {
+    card.addEventListener('touchstart', function () {
+      card.classList.add('is-tapped');
+    }, { passive: true });
+
+    card.addEventListener('touchend', function () {
+      // Petit délai pour que l'effet reste visible un instant après
+      // avoir relâché le doigt, au lieu de disparaître instantanément.
+      setTimeout(function () { card.classList.remove('is-tapped'); }, 350);
+    });
+  });
+}

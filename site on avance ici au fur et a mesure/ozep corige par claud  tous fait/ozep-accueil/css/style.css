@@ -1566,8 +1566,14 @@ footer {
   font-size: 15px;
 }
 
+.footer-col ul li a {
+  display: inline-block;
+  transition: color .25s ease, transform .25s ease;
+}
+
 .footer-col ul li a:hover {
   color: var(--orange);
+  transform: translateX(4px);
 }
 
 .footer-bottom {
